@@ -20,6 +20,12 @@ int main() {
 
 	cout << "Choice: ";
 	cin >> mainMenuChoice;
+	while (cin.fail()) {
+		cin.clear(); //Resets the flags so you can input again
+		cin.ignore(100, '\n'); //Empty the buffer
+		cout << "Please enter an integer!\n";
+		cin >> mainMenuChoice;
+	}
 
 	
 
@@ -58,39 +64,68 @@ int main() {
 		cout << "Choice: ";
 
 		cin >> VIPchoice;
+		while (cin.fail()) {
+			cin.clear(); //Resets the flags so you can input again
+			cin.ignore(100, '\n'); //Empty the buffer
+			cout << "Please enter an integer!\n";
+			cin >> VIPchoice;
+		}
 
 
-		switch (VIPchoice) {
-		case 1: 
-			//VIP = false; 
-			//car.isVIP = false or whatever
-			break;
-		case 2: 
-			//VIP = true; 
-			//car.isVIP = true or whatever
-			break;
-		case 3:
-			cout << "goodbye, thanks for nothing";
-			//return 0;
-			break;
-		}//end of VIP switch statement
+			switch (VIPchoice) {
+			case 1: 
+				//VIP = false; 
+				//car.isVIP = false or whatever
+				break;
+			case 2: 
+				//VIP = true; 
+				//car.isVIP = true or whatever
+				break;
+			case 3:
+				cout << "goodbye, thanks for nothing";
+				//return 0;
+				break;
+			default: 
+				cout << "That wasn't an option. Goodbye";
+				break;
+			}//end of VIP switch statement
 
 		//if car.isVIP cout "you are a VIP!"
 		//else if they are not
 
 		cout << "How long would you like to stay?" << endl;
-		cout << "<1 hour" << endl;
-		cout << "1 - 3 hours" << endl;
-		cout << "3 - 6 hours" << endl;
-		cout << "6 - 12 hours" << endl;
-		cout << "12 - 24 hours" << endl;
+		cout << "1. <1 hour" << endl;
+		cout << "2. 1 - 3 hours" << endl;
+		cout << "3. 3 - 6 hours" << endl;
+		cout << "4. 6 - 12 hours" << endl;
+		cout << "5. 12 - 24 hours" << endl;
 
 		cout << "Choice: " << endl;
 		cin >> timeChoice;
+		while (cin.fail()) {
+			cin.clear(); //Resets the flags so you can input again
+			cin.ignore(100, '\n'); //Empty the buffer
+			cout << "Please enter an integer!\n";
+			cin >> timeChoice;
+		}
+
 
 		//if statements to add money to the car object for the time choice 
 
 
+
+
+
+
+
+
+
+
+		break; //end of the case 1, car arriving in the parkinglot
+	case 2: break;
+	case 3: break;
+	default:
+		cout << "That wasn't an option. Goodbye";
 		break;
 
 
