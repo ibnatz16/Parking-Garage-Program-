@@ -8,7 +8,7 @@ using namespace std;
 
 
 int main() {
-	int menuChoice, VIPchoice;
+	int mainMenuChoice, VIPchoice, timeChoice;
 
 
 	cout << "Welcome to the Zanach Parking Garage!!" << endl;
@@ -19,13 +19,16 @@ int main() {
 	cout << "3. Find my car (I lost it!)" << endl;
 
 	cout << "Choice: ";
-	cin >> menuChoice;
+	cin >> mainMenuChoice;
 
 	
 
 
-	switch (menuChoice) {
+	switch (mainMenuChoice) {
+		//parking the car, car is arriving 
 	case 1: 
+		//declaring a new car object
+		
 
 		cout << "--\nThanks for parking your garage in the Zanach Parking Garage. \nWe promise your car is in pretty good hands for the most part!" << endl;
 		cout << "\nOur Regular Rates:" << endl;
@@ -42,7 +45,10 @@ int main() {
 		cout << "\t6 - 12 hours: $34.50" << endl;
 		cout << "\t12 - 24 hours: $44.50" << endl;
 
-		bool VIP = false;
+
+		//asking for VIP
+
+		//bool VIP = false;
 
 		cout << "Would you like to park regular or VIP?" << endl;
 
@@ -53,13 +59,14 @@ int main() {
 
 		cin >> VIPchoice;
 
+
 		switch (VIPchoice) {
 		case 1: 
-			VIP = false; 
+			//VIP = false; 
 			//car.isVIP = false or whatever
 			break;
 		case 2: 
-			VIP = true; 
+			//VIP = true; 
 			//car.isVIP = true or whatever
 			break;
 		case 3:
@@ -67,6 +74,22 @@ int main() {
 			//return 0;
 			break;
 		}//end of VIP switch statement
+
+		//if car.isVIP cout "you are a VIP!"
+		//else if they are not
+
+		cout << "How long would you like to stay?" << endl;
+		cout << "<1 hour" << endl;
+		cout << "1 - 3 hours" << endl;
+		cout << "3 - 6 hours" << endl;
+		cout << "6 - 12 hours" << endl;
+		cout << "12 - 24 hours" << endl;
+
+		cout << "Choice: " << endl;
+		cin >> timeChoice;
+
+		//if statements to add money to the car object for the time choice 
+
 
 		break;
 
