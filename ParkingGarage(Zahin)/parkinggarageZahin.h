@@ -8,10 +8,13 @@
 #ifndef PARKINGGARAGEZAHIN_H_
 #define PARKINGGARAGEZAHIN_H_
 
+using namespace std;
+#include <vector>
+#include <iostream>
+
 class parkinggarageZahin {
 public:
-	parkinggarageZahin();
-	virtual ~parkinggarageZahin();
+
 };
 
-#endif /* PARKINGGARAGEZAHIN_H_ */
+#endif
