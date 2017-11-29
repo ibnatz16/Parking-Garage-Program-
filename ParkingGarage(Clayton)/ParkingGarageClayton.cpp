@@ -7,10 +7,10 @@ using namespace std;
 //constructor for car object
 //initiates all variables to null or zero
 Car::Car (){
-    color = null;
-    make = null;
-    model = null;
-    lpNum = null;
+    color;
+    make;
+    model;
+    lpNum;
     floorNum = 0;
     spaceNum = 0;
     timePeriod = 0;
@@ -144,7 +144,7 @@ int main() {
 
 		//declaring a new car object of which all variables
 		//are initialized to null or zero
-        Car car = new Car();
+        car = new Car();
 
 		cout << "--\nThanks for parking your garage in the Zanach Parking Garage.
 		+ "\nWe promise your car is in pretty good hands for the most part!" << endl;
@@ -356,14 +356,15 @@ int main() {
 
 	     break;
 	case 3:
+        //asks user for license plate number to locate correct car object
 	    cout << "Please enter your license plate number:" << endl;
 	    cin >> lpTemp;
 
-	    //locates car using unique 6 character license plate number
+	    //code to locate correct car object
 	    //need to loop through vector to find car object with given license plate number
 	    //get floorNum and spaceNum when correct object is found and display them to the user
 
-	    cout << "Your" + car.get_color() + car.get_make() +car.get_model() +
+	    cout << "Your " + car.get_color() + " " + car.get_make() + " " + car.get_model() +
 	     " is located on floor " + car.get_floorNum() + " in space " + car.get_spaceNum() + "." << endl;
 
 	     break;
