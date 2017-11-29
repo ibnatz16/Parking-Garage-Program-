@@ -18,6 +18,99 @@ Car::Car (){
     isVIP = false;
 }
 
+//Setters
+void Car::set_color(string c)
+{
+    color = c;
+}
+
+void Car::set_make(string m)
+{
+    make = m;
+}
+
+void Car::set_model(string m)
+{
+    model = m;
+}
+
+void Car::set_lpNum(string lp)
+{
+    lpNum = lp;
+}
+
+void Car::set_floorNum(int fn)
+{
+    floorNum = fn;
+}
+
+void Car::set_spaceNum(int sn)
+{
+    spaceNum = sn;
+}
+
+void Car::set_timePeriod(int tp)
+{
+    timePeriod = tp;
+}
+
+void Car::moneyOwed(int m)
+{
+    moneyOwed = m;
+}
+
+void Car::set_isVIP(bool v)
+{
+    isVIP = v;
+}
+
+
+//Getters
+string Car::get_color()
+{
+    return color;
+}
+
+string Car::get_make()
+{
+    return make;
+}
+
+string Car::get_model()
+{
+    return model;
+}
+
+string Car::get_lpNum()
+{
+    return lpNum;
+}
+
+int Car::get_floorNum()
+{
+    return floorNum;
+}
+
+int Car::get_spaceNum()
+{
+    return spaceNum;
+}
+
+int Car::get_timePeriod()
+{
+    return timePeriod;
+}
+
+int Car::get_moneyOwed()
+{
+    return moneyOwed;
+}
+
+bool Car::get_isVIP()
+{
+    return isVIP;
+}
+
 
 int main() {
     //choice, temp, and input variable declarations
