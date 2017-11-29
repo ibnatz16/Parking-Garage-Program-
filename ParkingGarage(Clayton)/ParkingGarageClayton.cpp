@@ -14,17 +14,19 @@ Car::Car (){
     floorNum = 0;
     spaceNum = 0;
     timePeriod = 0;
+    moneyOwed = 0;
     isVIP = false;
 }
 
 
 int main() {
-	int mainMenuChoice, VIPchoice, timeChoice, floorTemp, spaceTemp, paymentChoice;
+    //choice, temp, and input variable declarations
+	int mainMenuChoice, VIPchoice, timeChoice, paymentChoice, floorTemp, spaceTemp;
 	string makeInput, modelInput, colorInput, lpInput, lpTemp;
 	double fee;
+	bool temp = false;
 
-
-
+    //greeting and prints main menu
 	cout << "Welcome to the Zanach Parking Garage!!" << endl;
 	cout << "What would you like to do? (Enter the number of your choice): " << endl;
 
@@ -42,16 +44,19 @@ int main() {
 	}
 
 
-
-
 	switch (mainMenuChoice) {
-		//parking the car, car is arriving
+
+	    //Parking a new car
 	case 1:
+
 		//declaring a new car object of which all variables
 		//are initialized to null or zero
         Car car = new Car();
 
-		cout << "--\nThanks for parking your garage in the Zanach Parking Garage. \nWe promise your car is in pretty good hands for the most part!" << endl;
+		cout << "--\nThanks for parking your garage in the Zanach Parking Garage.
+		+ "\nWe promise your car is in pretty good hands for the most part!" << endl;
+
+		//prints out regular rates
 		cout << "\nOur Regular Rates:" << endl;
 		cout << "\t<1 hour: $10" << endl;
 		cout << "\t1 - 3 hour(s): $12.50" << endl;
@@ -59,6 +64,7 @@ int main() {
 		cout << "\t6 - 12 hours: $24.50" << endl;
 		cout << "\t12 - 24 hours: $34.50" << endl;
 
+		//prints out VIP rates
 		cout << "\nOur VIP Rates:" << endl;
 		cout << "\t<1 hour: $20" << endl;
 		cout << "\t1 - 3 hours: $22.50" << endl;
@@ -67,8 +73,7 @@ int main() {
 		cout << "\t12 - 24 hours: $44.50" << endl;
 
 
-		//asking for VIP
-
+		//asks to pick regular or VIP rates
 		cout << "Would you like to park regular or VIP?" << endl;
 
 		cout << "1. Regular" << endl;
@@ -86,12 +91,14 @@ int main() {
 
 
 			switch (VIPchoice) {
+			    //user chooses regular rates
 			case 1:
 			    //isVIP is initialized to be false so nothing needs to be done
 				break;
 			case 2:
-			    //isVIP is changed to true
-				car.set_isVIP(true);
+			    //isVIP is set to true
+			    temp = true;
+				car.set_isVIP(temp);
 				break;
 			case 3:
 				cout << "goodbye, thanks for nothing";
@@ -103,7 +110,7 @@ int main() {
 			}//end of VIP switch statement
 
 
-        //asks for time period
+        //asks which time period they will be paying for
 		cout << "How long would you like to stay?" << endl;
 		cout << "1. <1 hour" << endl;
 		cout << "2. 1 - 3 hours" << endl;
@@ -122,18 +129,23 @@ int main() {
 
 			switch (timeChoice) {
 			case 1:
+			    //user is parking <1 hr
 				car.set_timePeriod(1);
 				break;
 			case 2:
+			    //1-3 hrs
 				car.set_timePeriod(2);
 				break;
 			case 3:
+			    //3-6 hrs
 				car.set_timePeriod(3);
 				break;
             case 4:
+                //6-12 hrs
                 car.set_timePeriod(4);
                 break;
             case 5:
+                //12-24 hrs
                 car.set_timePeriod(5);
                 break;
 			default:
@@ -142,6 +154,7 @@ int main() {
 			}//end of time period switch statement
 
         //determines the fee that will be paid upon exit
+        //checks if user is VIP or regular and then sets moneyOwed
         if(car.get_isVIP() == false){
             if(car.get_timePeriod() == 1){
                 fee = 10;
@@ -187,8 +200,7 @@ int main() {
             }
         }
 
-        //asks for make, model, color, and license plate
-
+        //asks for make, model, color, and license plate of vehicle
         cout << "Please enter your vehicle's make:" << endl;
         cin >> makeInput;
             car.set_make(makeInput);
