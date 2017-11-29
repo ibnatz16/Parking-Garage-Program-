@@ -297,17 +297,34 @@ int main() {
         cout << "Please enter your vehicle's make:" << endl;
         cin >> makeInput;
             car.set_make(makeInput);
+
         cout << "Please enter your vehicle's model:" << endl;
         cin >> modelInput;
             car.set_model(modelInput);
+
         cout << "Please enter your vehicle's color:" << endl;
         cin >> colorInput;
             car.set_color(colorInput);
-        cout << "Please enter your vehicle's license plate number:/n(Must be 6 characters)" << endl;
-        cin >> lpInput;
-            car.set_lpNum(lpInput);
 
-        //now the car need to be assigned to a spot
+        cout << "Please enter a 6 character license plate number:" << endl;
+        cin >> lpInput;
+
+        //checks that the license plate is exactly 6 characters long
+        while(lpInput.length() != 6){
+            cout << "Please enter a 6 character license plate number:"
+            cin >> lpInput;
+        }
+        //checks that each character in the string is either a number or a letter
+        for(int i = 0; i<6; i++){
+           if(isalnum(lpInput.charAt(i)) == false){
+             cout << "You entered an invalid character.
+             + "Please enter a license plate with only numbers and letters." << endl;
+             cin << lpInput;
+           }
+        }
+        car.set_lpNum(lpInput);
+
+        //now the car needs to be assigned to a spot
 
 		break; //end of the case 1, car arriving in the parkinglot
 	case 2:

@@ -7,18 +7,8 @@
 using namespace std;
 
 class Car{
-    private:
-        //All car variable declarations
-        string color;
-        string make;
-        string model;
-        string lpNum;
-        int floorNum;
-        int spaceNum;
-        int timePeriod;
-        int moneyOwed;
-        bool isVIP;
 
+        public:
         //declarations of setter methods for car variables
         void set_color(string c);
         void set_make(string m);
@@ -40,6 +30,18 @@ class Car{
         int get_timePeriod();
         int get_moneyOwed();
         bool get_isVIP();
+
+        private:
+        //All car variable declarations
+        string color;
+        string make;
+        string model;
+        string lpNum;
+        int floorNum;
+        int spaceNum;
+        int timePeriod;
+        int moneyOwed;
+        bool isVIP;
 
 };
 
