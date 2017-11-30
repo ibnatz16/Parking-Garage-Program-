@@ -138,13 +138,15 @@ int main() {
 		cin >> mainMenuChoice;
 	}
 
-	Car car;
+	Car temp;
 
 	switch (mainMenuChoice) {
 		//parking the car, car is arriving 
 	case 1: 
+	{
 		//declaring a new car object
-		
+		Car car;
+
 
 		cout << "--\nThanks for parking your garage in the Zanach Parking Garage."
 			<< "\nWe promise your car is in pretty good hands for the most part!" << endl;
@@ -182,33 +184,33 @@ int main() {
 			cin >> VIPchoice;
 		}
 
-		
-
-			switch (VIPchoice) {
-				//user chooses regular rates
-			case 1: 
-				//VIP = false; 
-				//car.isVIP = false or whatever
-				break;
-			case 2: 
-				//isVIP is set to true
-				//bool temp = true;
-				car.set_isVIP(true);
-				break;
-			case 3:
-				cout << "goodbye, thanks for nothing";
-				//return 0;
-				break;
-			default: 
-				cout << "That wasn't an option. Goodbye";
-				break;
-			}//end of VIP switch statement
-
-		//if car.isVIP cout "you are a VIP!"
-		//else if they are not
 
 
-			//asks which time period they will be paying for 
+		switch (VIPchoice) {
+			//user chooses regular rates
+		case 1:
+			//VIP = false; 
+			//car.isVIP = false or whatever
+			break;
+		case 2:
+			//isVIP is set to true
+			//bool temp = true;
+			car.set_isVIP(true);
+			break;
+		case 3:
+			cout << "goodbye, thanks for nothing";
+			//return 0;
+			break;
+		default:
+			cout << "That wasn't an option. Goodbye";
+			break;
+		}//end of VIP switch statement
+
+	//if car.isVIP cout "you are a VIP!"
+	//else if they are not
+
+
+		//asks which time period they will be paying for 
 		cout << "How long would you like to stay?" << endl;
 		cout << "1. <1 hour" << endl;
 		cout << "2. 1 - 3 hours" << endl;
@@ -313,12 +315,12 @@ int main() {
 		//checks that the license plate is exactly 6 characters long
 		while (lpInput.length() != 6) {
 			cout << "Please enter a 6 character license plate number:";
-				cin >> lpInput;
+			cin >> lpInput;
 		}
 		//checks that each character in the string is either a number or a letter
-		for (int i = 0; i<6; i++) {
+		for (int i = 0; i < 6; i++) {
 			if (isalnum(lpInput.at(i)) == false) {
-				cout << "You entered an invalid character."<< "Please enter a license plate with only numbers and letters." << endl;
+				cout << "You entered an invalid character." << "Please enter a license plate with only numbers and letters." << endl;
 				cin >> lpInput;
 			}
 		}
@@ -336,9 +338,11 @@ int main() {
 
 
 		break; //end of the case 1, car arriving in the parkinglot
+	}
 		case 2: 
 		
-		
+			Car car = temp;
+
 		
 		
 		//checkout and pay
@@ -375,6 +379,7 @@ int main() {
 		
 		break;
 	case 3: 
+		Car car = temp;
 		
 		cout << "Please enter your license plate number:" << endl;
 		cin >> lpTemp;
