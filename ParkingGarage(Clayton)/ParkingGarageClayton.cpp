@@ -58,7 +58,7 @@ void Car::set_timePeriod(int tp)
     timePeriod = tp;
 }
 
-void Car::set_moneyOwed(int m)
+void Car::set_moneyOwed(double m)
 {
     moneyOwed = m;
 }
@@ -110,7 +110,7 @@ int Car::get_timePeriod()
     return timePeriod;
 }
 
-int Car::get_moneyOwed()
+double Car::get_moneyOwed()
 {
     return moneyOwed;
 }

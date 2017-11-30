@@ -17,7 +17,7 @@ class Car{
         void set_floorNum(int fn);
         void set_spaceNum(int sn);
         void set_timePeriod(int tp);
-        void set_moneyOwed(int m);
+        void set_moneyOwed(double m);
         void set_isOccupied(bool o);
         void set_isVIP(bool v);
 
@@ -29,7 +29,7 @@ class Car{
         int get_floorNum();
         int get_spaceNum();
         int get_timePeriod();
-        int get_moneyOwed();
+        double get_moneyOwed();
         bool get_isOccupied();
         bool get_isVIP();
 
@@ -42,7 +42,7 @@ class Car{
         int floorNum = 0;
         int spaceNum = 0;
         int timePeriod = 0;
-        int moneyOwed = 0;
+        double moneyOwed = 0;
         bool isOccupied = false;
         bool isVIP = false;
 
