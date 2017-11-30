@@ -6,8 +6,6 @@
 using namespace std;
 #include "parkinggarageZahin.h"
 
-
-
 //constructor for car object
 //initiates all variables to null or zero
 Car::Car(){
@@ -22,6 +20,7 @@ Car::Car(){
     isOccupied = false;
     moneyOwed = 0.0;
 }
+
 //Setters
 void Car::set_color(string c)
 {
@@ -136,6 +135,7 @@ int main(int argc, int argv[]) {
     
     
     cout << "Welcome to the Zanach Parking Garage!!" << endl;
+    do{
     cout << "What would you like to do? (Enter the number of your choice): " << endl;
     
     cout << "\n1. Park my car" << endl;
@@ -341,16 +341,22 @@ int main(int argc, int argv[]) {
             
             //now the car need to be assigned to a spot
             
-            
-            
-            
-            
-            
-            
+            for (int i = 0; i < floorNum; i++) {
+                for (int j = 0; j < spaceNum; j++) {
+                    if (carsList[i][j].get_isOccupied() == false) {
+                        carsList[i][j].set_floorNum(i);
+                        carsList[i][j].set_spaceNum(j);
+                        carsList[i][j].set_isOccupied(true);
+                        goto parked;
+                    }
+                }
+            }
+        parked:
             
             break; //end of the case 1, car arriving in the parkinglot
         }
         case 2:
+            
         {
             
             Car car;
@@ -381,9 +387,11 @@ int main(int argc, int argv[]) {
             
             
             break;
+            
         }
             
         case 3:
+            
         {
             Car car = temp;
             //This is Chris, I'm messing with this.
@@ -398,13 +406,19 @@ int main(int argc, int argv[]) {
             " is located on floor " + car.get_floorNum() + " in space " + car.get_spaceNum() + ".\n";
             
             break;
+            
         }
         default:
+            
         {
+            
             cout << "That wasn't an option. Goodbye";
+            cin>>quit;
             break;
             
             
-        }//end of big switch statement
-    }
+        }
+            //end of big switch statement
+    }while (quit==1);
+        
 }
