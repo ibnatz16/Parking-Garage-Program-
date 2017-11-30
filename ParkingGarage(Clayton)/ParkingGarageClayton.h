@@ -18,6 +18,7 @@ class Car{
         void set_spaceNum(int sn);
         void set_timePeriod(int tp);
         void set_moneyOwed(int m);
+        void set_isOccupied(bool o);
         void set_isVIP(bool v);
 
         //declarations of getter methods for car variables
@@ -29,6 +30,7 @@ class Car{
         int get_spaceNum();
         int get_timePeriod();
         int get_moneyOwed();
+        bool get_isOccupied();
         bool get_isVIP();
 
         private:
@@ -37,11 +39,12 @@ class Car{
         string make;
         string model;
         string lpNum;
-        int floorNum;
-        int spaceNum;
-        int timePeriod;
-        int moneyOwed;
-        bool isVIP;
+        int floorNum = 0;
+        int spaceNum = 0;
+        int timePeriod = 0;
+        int moneyOwed = 0;
+        bool isOccupied = false;
+        bool isVIP = false;
 
 };
 

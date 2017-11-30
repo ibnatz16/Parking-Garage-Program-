@@ -1,20 +1,24 @@
 #include <iostream>
-
+#include <string>
+#include <string.h>
+#include <vector>
+#include "parkingGarage.h"
 
 using namespace std;
-#include "ParkingGarage.h"
+
 
 //constructor for car object
 //initiates all variables to null or zero
 Car::Car (){
-    color;
-    make;
-    model;
-    lpNum;
+    color = "";
+    make = "";
+    model = "";
+    lpNum = "";
     floorNum = 0;
     spaceNum = 0;
     timePeriod = 0;
     moneyOwed = 0;
+    isOccupied = false;
     isVIP = false;
 }
 
@@ -54,9 +58,14 @@ void Car::set_timePeriod(int tp)
     timePeriod = tp;
 }
 
-void Car::moneyOwed(int m)
+void Car::set_moneyOwed(int m)
 {
     moneyOwed = m;
+}
+
+void Car::set_isOccupied(bool o)
+{
+    isOccupied = o;
 }
 
 void Car::set_isVIP(bool v)
@@ -106,6 +115,11 @@ int Car::get_moneyOwed()
     return moneyOwed;
 }
 
+bool Car::get_isOccupied()
+{
+    return isOccupied;
+}
+
 bool Car::get_isVIP()
 {
     return isVIP;
@@ -113,11 +127,10 @@ bool Car::get_isVIP()
 
 
 int main() {
-    //choice, temp, and input variable declarations
-	int mainMenuChoice, VIPchoice, timeChoice, paymentChoice, floorTemp, spaceTemp;
-	string makeInput, modelInput, colorInput, lpInput, lpTemp;
-	double fee;
-	bool temp = false;
+    int mainMenuChoice = 0, VIPchoice = 0, timeChoice = 0; //neha
+	int floorTemp, spaceTemp, paymentChoice; //austin
+	string makeInput, modelInput, colorInput, lpInput, lpTemp; //austin
+	double fee; //austin
 
     //greeting and prints main menu
 	cout << "Welcome to the Zanach Parking Garage!!" << endl;
@@ -136,6 +149,8 @@ int main() {
 		cin >> mainMenuChoice;
 	}
 
+	Car temp;
+
 
 	switch (mainMenuChoice) {
 
@@ -144,10 +159,10 @@ int main() {
 
 		//declaring a new car object of which all variables
 		//are initialized to null or zero
-        car = new Car();
+        Car car;
 
-		cout << "--\nThanks for parking your garage in the Zanach Parking Garage.
-		+ "\nWe promise your car is in pretty good hands for the most part!" << endl;
+		cout << "--\nThanks for parking your garage in the Zanach Parking Garage."
+		<< "\nWe promise your car is in pretty good hands for the most part!" << endl;
 
 		//prints out regular rates
 		cout << "\nOur Regular Rates:" << endl;
@@ -190,8 +205,7 @@ int main() {
 				break;
 			case 2:
 			    //isVIP is set to true
-			    temp = true;
-				car.set_isVIP(temp);
+				car.set_isVIP(true);
 				break;
 			case 3:
 				cout << "goodbye, thanks for nothing";
@@ -315,19 +329,23 @@ int main() {
             cin >> lpInput;
         }
         //checks that each character in the string is either a number or a letter
-        for(int i = 0; i<6; i++){
+        for(int i = 0; i < 6; i++){
            if(isalnum(lpInput.charAt(i)) == false){
-             cout << "You entered an invalid character.
-             + "Please enter a license plate with only numbers and letters." << endl;
+             cout << "You entered an invalid character."
+             << "Please enter a license plate with only numbers and letters." << endl;
              cin << lpInput;
            }
         }
         car.set_lpNum(lpInput);
 
         //now the car needs to be assigned to a spot
+        //using first fit logic
 
 		break; //end of the case 1, car arriving in the parkinglot
 	case 2:
+
+	    Car car = temp;
+
 	    //checkout and pay
 
 	    cout << "Thank you for parking with Zanach!" << endl;
@@ -349,13 +367,16 @@ int main() {
             cout << "Please take your change and have a great day!" << endl;
 	    }
 	    if(paymentChoice == 2){
-            cout << "Please insert your card.n/Authorizing...n/
+            cout << "Please insert your card.n/Authorizing...n/"
             + "Please take your receipt and have a great day!" << endl;
 	    }
 
 
 	     break;
 	case 3:
+
+	    Car car = temp;
+
         //asks user for license plate number to locate correct car object
 	    cout << "Please enter your license plate number:" << endl;
 	    cin >> lpTemp;
