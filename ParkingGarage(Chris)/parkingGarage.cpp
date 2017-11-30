@@ -342,7 +342,7 @@ int main(int argc, int argv[]) {
 			if (isalnum(lpInput.charAt(i)) == false) {
 				cout << "You entered an invalid character."
 					<< "Please enter a license plate with only numbers and letters." << endl;
-				cin << lpInput;
+				cin >> lpInput;
 			}
 		}
 		car.set_lpNum(lpInput);
@@ -385,7 +385,6 @@ int main(int argc, int argv[]) {
 	case 3:
 
 		Car car = temp;
-		//This is Chris, I'm messing with this.
 		//asks user for license plate number to locate correct car object
 		cout << "Please enter your license plate number:" << endl;
 		cin >> lpTemp;
@@ -407,13 +406,17 @@ int main(int argc, int argv[]) {
 
 }
 
-void findCar(int spaces, int floors, string plate){
-	int spot = 0;
+int findCar::car(int spaces, int floors, string plate){
+	int floorNum = 0;
+	int spaceNum = 0;
 	for (int i = 0; i < floors; i++) {
 		for (int j = 0; j < spaces; j++) {
-
+			/*if carArray[j+i].lp = plate
+			floor num = i+1 (no floor 0)
+			spot num = j (+1?)
+			break;*/
 		}
 	}
 
-
+	return floorNum, spaceNum;
 }
