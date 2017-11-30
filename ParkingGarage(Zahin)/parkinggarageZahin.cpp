@@ -1,37 +1,128 @@
-/*
- * parkinggarageZahin.cpp
- *
- *  Created on: Nov 28, 2017
- *      Author: ibnatz16
- */
-
-#include "parkinggarageZahin.h"
-using namespace std;
-#include <vector>
 #include <iostream>
+#include <string>
+#include <string.h>
+#include <vector>
 
-void arrivingGreeting() {
-    
-    cout << "--\nThanks for parking your garage in the Zanach Parking Garage. \nWe promise your car is in pretty good hands for the most part!" << endl;
-    cout << "\nOur Regular Rates:" << endl;
-    cout << "\t<1 hour: $10" << endl;
-    cout << "\t1 - 3 hour(s): $12.50" << endl;
-    cout << "\t3 - 6 hours: $17.50" << endl;
-    cout << "\t6 - 12 hours: $24.50" << endl;
-    cout << "\t12 - 24 hours: $34.50" << endl;
-    
-    cout << "\nOur VIP Rates:" << endl;
-    cout << "\t<1 hour: $20" << endl;
-    cout << "\t1 - 3 hours: $22.50" << endl;
-    cout << "\t3 - 6 hours: $27.50" << endl;
-    cout << "\t6 - 12 hours: $34.50" << endl;
-    cout << "\t12 - 24 hours: $44.50" << endl;
-    
+using namespace std;
+#include "parkinggarageZahin.h"
+
+
+
+//constructor for car object
+//initiates all variables to null or zero
+Car::Car(){
+    color = "";
+    make = "";
+    model = "";
+    lpNum = "";
+    floorNum = 0;
+    spaceNum = 0;
+    timePeriod = 0;
+    isVIP = false;
+    isOccupied = false;
+    moneyOwed = 0.0;
+}
+//Setters
+void Car::set_color(string c)
+{
+    color = c;
+}
+
+void Car::set_make(string m)
+{
+    make = m;
+}
+
+void Car::set_model(string m)
+{
+    model = m;
+}
+
+void Car::set_lpNum(string lp)
+{
+    lpNum = lp;
+}
+
+void Car::set_floorNum(int fn)
+{
+    floorNum = fn;
+}
+
+void Car::set_spaceNum(int sn)
+{
+    spaceNum = sn;
+}
+
+void Car::set_timePeriod(int tp)
+{
+    timePeriod = tp;
+}
+
+void Car::set_moneyOwed(double m)
+{
+    moneyOwed = m;
+}
+
+void Car::set_isVIP(bool v)
+{
+    isVIP = v;
 }
 
 
+//Getters
+string Car::get_color()
+{
+    return color;
+}
+
+string Car::get_make()
+{
+    return make;
+}
+
+string Car::get_model()
+{
+    return model;
+}
+
+string Car::get_lpNum()
+{
+    return lpNum;
+}
+
+int Car::get_floorNum()
+{
+    return floorNum;
+}
+
+int Car::get_spaceNum()
+{
+    return spaceNum;
+}
+
+int Car::get_timePeriod()
+{
+    return timePeriod;
+}
+
+double Car::get_moneyOwed()
+{
+    return moneyOwed;
+}
+
+bool Car::get_isVIP()
+{
+    return isVIP;
+}
+
 int main() {
-    int mainMenuChoice, VIPchoice, timeChoice = 0;
+    
+    
+    int mainMenuChoice, VIPchoice, timeChoice = 0; //neha
+    int floorTemp, spaceTemp, paymentChoice = 0; //austin
+    string makeInput, modelInput, colorInput, lpInput, lpTemp; //austin
+    double fee = 0.0; //austin
+    
     
     cout << "Welcome to the Zanach Parking Garage!!" << endl;
     cout << "What would you like to do? (Enter the number of your choice): " << endl;
@@ -42,26 +133,34 @@ int main() {
     
     cout << "Choice: ";
     cin >> mainMenuChoice;
-    while(cin.fail()){
+    while (cin.fail()) {
         cin.clear(); //Resets the flags so you can input again
         cin.ignore(100, '\n'); //Empty the buffer
         cout << "Please enter an integer!\n";
         cin >> mainMenuChoice;
     }
+    
+    Car temp;
+    
     switch (mainMenuChoice) {
             //parking the car, car is arriving
         case 1:
+        {
             //declaring a new car object
+            Car car;
             
             
-            cout << "--\nThanks for parking your garage in the Zanach Parking Garage. \nWe promise your car is in pretty good hands for the most part!" << endl;
-            cout << "\nOur Regular Rates:" << endl;
+            cout << "--\nThanks for parking your garage in the Zanach Parking Garage."
+            << "\nWe promise your car is in pretty good hands for the most part!" << endl;
+            
+            //prints out regular rates
             cout << "\t<1 hour: $10" << endl;
             cout << "\t1 - 3 hour(s): $12.50" << endl;
             cout << "\t3 - 6 hours: $17.50" << endl;
             cout << "\t6 - 12 hours: $24.50" << endl;
             cout << "\t12 - 24 hours: $34.50" << endl;
             
+            //prints out VIP rates
             cout << "\nOur VIP Rates:" << endl;
             cout << "\t<1 hour: $20" << endl;
             cout << "\t1 - 3 hours: $22.50" << endl;
@@ -70,9 +169,7 @@ int main() {
             cout << "\t12 - 24 hours: $44.50" << endl;
             
             
-            //asking for VIP
-            
-            //bool VIP = false;
+            //asks to pick regular or VIP rates
             
             cout << "Would you like to park regular or VIP?" << endl;
             
@@ -82,32 +179,44 @@ int main() {
             cout << "Choice: ";
             
             cin >> VIPchoice;
-            
+            while (cin.fail()) {
+                cin.clear(); //Resets the flags so you can input again
+                cin.ignore(100, '\n'); //Empty the buffer
+                cout << "Please enter an integer!\n";
+                cin >> VIPchoice;
+            }
             
             switch (VIPchoice) {
+                    //user chooses regular rates
                 case 1:
                     //VIP = false;
                     //car.isVIP = false or whatever
                     break;
                 case 2:
-                    //VIP = true;
-                    //car.isVIP = true or whatever
+                    //isVIP is set to true
+                    //bool temp = true;
+                    car.set_isVIP(true);
                     break;
                 case 3:
                     cout << "goodbye, thanks for nothing";
                     //return 0;
+                    break;
+                default:
+                    cout << "That wasn't an option. Goodbye";
                     break;
             }//end of VIP switch statement
             
             //if car.isVIP cout "you are a VIP!"
             //else if they are not
             
+            
+            //asks which time period they will be paying for
             cout << "How long would you like to stay?" << endl;
-            cout << "<1 hour" << endl;
-            cout << "1 - 3 hours" << endl;
-            cout << "3 - 6 hours" << endl;
-            cout << "6 - 12 hours" << endl;
-            cout << "12 - 24 hours" << endl;
+            cout << "1. <1 hour" << endl;
+            cout << "2. 1 - 3 hours" << endl;
+            cout << "3. 3 - 6 hours" << endl;
+            cout << "4. 6 - 12 hours" << endl;
+            cout << "5. 12 - 24 hours" << endl;
             
             cout << "Choice: " << endl;
             cin >> timeChoice;
@@ -118,27 +227,176 @@ int main() {
                 cin >> timeChoice;
             }
             
-            //if statements to add money to the car object for the time choice
-            break; //end of the case 1, car arriving in the parking lot
-        case 2:
-            cout<<"You have chosen to retrieve your car. Please enter your license plate number: "<<endl;
-            //User inputs the license plate number linked to their car object.
-            //A while loop will prevent the user from inputing more than 6 characters for the license plate number.
-            //if the plate number cannot be found:
-            cout<<"Sorry! The license plate number cannot be found in our system. Please try again."<<endl;
-            //a while loop will keep prompting the user to enter a valid license plate number.
             
-            //if the license plate number exists:
-            cout<<"You have parked your ... for "<<timeChoice<<". Your total comes out to "<<endl;
-            //the amount the user has to pay is linked to the timeChoice, which is linked to their specific car.
-            cout<<"Thanks for parking your garage in the Zanach Parking Garage. Have a nice day!"<<endl;
+            //if statements to add money to the car object for the time choice
+            
+            switch (timeChoice) {
+                case 1:
+                    car.set_timePeriod(1);
+                    break;
+                case 2:
+                    car.set_timePeriod(2);
+                    break;
+                case 3:
+                    car.set_timePeriod(3);
+                    break;
+                case 4:
+                    car.set_timePeriod(4);
+                    break;
+                case 5:
+                    car.set_timePeriod(5);
+                    break;
+                default:
+                    cout << "That wasn't an option. Goodbye";
+                    break;
+            }//end of time period switch statement
+            
+            //determines the fee that will be paid upon exit
+            //checks is user is VIP or regular and then sets moneyOwed
+            if (car.get_isVIP() == false) {
+                if (car.get_timePeriod() == 1) {
+                    fee = 10;
+                    car.set_moneyOwed(fee);
+                }
+                if (car.get_timePeriod() == 2) {
+                    fee = 12.5;
+                    car.set_moneyOwed(fee);
+                }
+                if (car.get_timePeriod() == 3) {
+                    fee = 17.5;
+                    car.set_moneyOwed(fee);
+                }
+                if (car.get_timePeriod() == 4) {
+                    fee = 24.5;
+                    car.set_moneyOwed(fee);
+                }
+                if (car.get_timePeriod() == 5) {
+                    fee = 34.5;
+                    car.set_moneyOwed(fee);
+                }
+                
+            }
+            else {
+                if (car.get_timePeriod() == 1) {
+                    fee = 20;
+                    car.set_moneyOwed(fee);
+                }
+                if (car.get_timePeriod() == 2) {
+                    fee = 22.5;
+                    car.set_moneyOwed(fee);
+                }
+                if (car.get_timePeriod() == 3) {
+                    fee = 27.5;
+                    car.set_moneyOwed(fee);
+                }
+                if (car.get_timePeriod() == 4) {
+                    fee = 34.5;
+                    car.set_moneyOwed(fee);
+                }
+                if (car.get_timePeriod() == 5) {
+                    fee = 44.5;
+                    car.set_moneyOwed(fee);
+                }
+            }
+            
+            //asks for make, model, color, and license plate of vehicle
+            
+            cout << "Please enter your vehicle's make:" << endl;
+            cin >> makeInput;
+            car.set_make(makeInput);
+            cout << "Please enter your vehicle's model:" << endl;
+            cin >> modelInput;
+            car.set_model(modelInput);
+            cout << "Please enter your vehicle's color:" << endl;
+            cin >> colorInput;
+            car.set_color(colorInput);
+            cout << "Please enter a 6 character license plate number:" << endl;
+            cin >> lpInput;
+            //checks that the license plate is exactly 6 characters long
+            while (lpInput.length() != 6) {
+                cout << "Please enter a 6 character license plate number:";
+                cin >> lpInput;
+            }
+            //checks that each character in the string is either a number or a letter
+            for (int i = 0; i < 6; i++) {
+                if (isalnum(lpInput.at(i)) == false) {
+                    cout << "You entered an invalid character." << "Please enter a license plate with only numbers and letters." << endl;
+                    cin >> lpInput;
+                }
+            }
+            car.set_lpNum(lpInput);
+            
+            //now the car needs to be assigned to a spot
+            
+            //now the car need to be assigned to a spot
+            
+            
+            
+            
+            
+            
+            
+            
+            break; //end of the case 1, car arriving in the parkinglot
+        }
+        case 2:
+        {
+            
+            Car car;
+            cout<<"You have chosen to retrieve your car. "<<endl;
+            cout << "Please enter your floor number:" << endl;
+            cin >> floorTemp;
+            cout << "Please enter your space number:" << endl;
+            cin >> spaceTemp;
+            //if there is a car in that space:
+            cout<<"You have parked your "<<car.get_color()<<" "<<car.get_make()<< " "<<car.get_model()<<" for "<<car.get_timePeriod();
+            cout<<"\nYour total comes out to $"<<car.get_moneyOwed();
+            
+            cout << "Would you like to pay with/n1. Cash/n2. Card" << endl;
+            cin >> paymentChoice;
+            
+            if (paymentChoice == 1) {
+                cout << "Please take your change and have a great day!" << endl;
+            }
+            if (paymentChoice == 2) {
+                cout << "Please insert your card.n/Authorizing...n/"
+                << "Please take your receipt and have a great day!" << endl;
+            }
+            
+            //code that finds which car object is at that space
+            //and then calls the get_moneyOwed() method for that object
+            //amount of money owed is then displayed to the user
+            
+            
+            
             break;
-        case 3: break;
+        }
+            
+        case 3:
+        {
+            Car car;
+            cout << "Please enter your license plate number:" << endl;
+            cin >> lpTemp;
+            
+            //locates car using unique 6 character license plate number
+            //need to loop through vector to find car object with given license plate number
+            //get floorNum and spaceNum when correct object is found and display them to the user
+            
+            cout << "Your" << car.get_color() << car.get_make() << car.get_model() <<
+            " is located on floor " << car.get_floorNum() << " in space " << car.get_spaceNum() << "." << endl;
+            
+            
+            
+            
+            break;
+        }
         default:
+        {
             cout << "That wasn't an option. Goodbye";
             break;
             
             
-    }//end of big switch statement
-    
+        }//end of big switch statement
+    }
 }
+
