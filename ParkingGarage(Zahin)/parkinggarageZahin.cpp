@@ -31,7 +31,7 @@ void arrivingGreeting() {
 
 
 int main() {
-    int mainMenuChoice, VIPchoice, timeChoice;
+    int mainMenuChoice, VIPchoice, timeChoice = 0;
     
     cout << "Welcome to the Zanach Parking Garage!!" << endl;
     cout << "What would you like to do? (Enter the number of your choice): " << endl;
@@ -142,4 +142,3 @@ int main() {
     }//end of big switch statement
     
 }
-
