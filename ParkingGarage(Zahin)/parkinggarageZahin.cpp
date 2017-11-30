@@ -68,6 +68,14 @@ void Car::set_isVIP(bool v)
     isVIP = v;
 }
 
+void findCar(int spaces, int floors, string plate){
+    int spot = 0;
+    for (int i = 0; i < floors; i++) {
+        for (int j = 0; j < spaces; j++) {
+            
+        }
+    }
+}
 
 //Getters
 string Car::get_color()
@@ -115,8 +123,11 @@ bool Car::get_isVIP()
     return isVIP;
 }
 
-int main() {
+int main(int argc, int argv[]) {
     
+    const int NUM_FLOORS = argv[0]; //Number of floors
+    const int NUM_SPACES = argv[1]; //Number of spaces PER FLOOR
+    const int SPACES_TOTAL = NUM_FLOORS * NUM_SPACES;
     
     int mainMenuChoice, VIPchoice, timeChoice = 0; //neha
     int floorTemp, spaceTemp, paymentChoice = 0; //austin
@@ -374,19 +385,17 @@ int main() {
             
         case 3:
         {
-            Car car;
+            Car car = temp;
+            //This is Chris, I'm messing with this.
+            //asks user for license plate number to locate correct car object
             cout << "Please enter your license plate number:" << endl;
             cin >> lpTemp;
-            
-            //locates car using unique 6 character license plate number
+            findCar(NUM_SPACES, NUM_FLOORS, lpTemp);
+            //code to locate correct car object
             //need to loop through vector to find car object with given license plate number
             //get floorNum and spaceNum when correct object is found and display them to the user
-            
-            cout << "Your" << car.get_color() << car.get_make() << car.get_model() <<
-            " is located on floor " << car.get_floorNum() << " in space " << car.get_spaceNum() << "." << endl;
-            
-            
-            
+            cout << "Your " + car.get_color() + " " + car.get_make() + " " + car.get_model() +
+            " is located on floor " + car.get_floorNum() + " in space " + car.get_spaceNum() + ".\n";
             
             break;
         }
@@ -399,4 +408,3 @@ int main() {
         }//end of big switch statement
     }
 }
-
