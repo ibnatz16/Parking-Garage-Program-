@@ -6,6 +6,7 @@
 #include <conio.h>
 #include <windows.h>
 #include "ParkingGarageClayton.h"
+#include "ParkingGarageManager.h"
 
 using namespace std;
 
@@ -25,7 +26,34 @@ Car::Car() {
 	isVIP = false;
 }
 
-//Setters
+Manager::Manager(string user) {
+    username = user;
+    password = "password";
+}
+
+//Manager Setters
+void Manager::set_username(string user)
+{
+    user = username;
+}
+
+void Manager::set_password(string pass)
+{
+    pass = password;
+}
+
+//Manager Getters
+string Manager::get_username()
+{
+    return username;
+}
+
+string Manager::get_password()
+{
+    return password;
+}
+
+//Car Setters
 void Car::set_color(string c)
 {
 	color = c;
@@ -169,6 +197,7 @@ int main(int argc, char * argv[]) {
 	cout << "\n1. Park my Car" << endl;
 	cout << "2. Retrieve my car (checkout and pay)" << endl;
 	cout << "3. Find my Car (I lost it!)" << endl;
+	cout << "4. Manager Login" << endl;
 
 	cout << "Choice: ";
 	cin >> mainMenuChoice;
@@ -384,8 +413,8 @@ int main(int argc, char * argv[]) {
 						carsList[i][j].set_color(colorInput);
                         carsList[i][j].set_timePeriod(car.get_timePeriod());
                         carsList[i][j].set_moneyOwed(car.get_moneyOwed());
-						cout << "You have been assigned a VIP spot on floor " << carsList[i][j].get_floorNum()
-                        << ", spot " << carsList[i][j].get_spaceNum() << ". Have a great day sir/madame!" << endl;
+						cout << "You have been assigned a VIP space on floor " << carsList[i][j].get_floorNum()
+                        << ", space " << carsList[i][j].get_spaceNum() << ". Have a great day sir/madame!" << endl;
                         goto successfulPark;
 					}
 				}
@@ -422,8 +451,8 @@ int main(int argc, char * argv[]) {
 						carsList[i][j].set_color(colorInput);
                         carsList[i][j].set_timePeriod(car.get_timePeriod());
                         carsList[i][j].set_moneyOwed(car.get_moneyOwed());
-                        cout << "You have been assigned a regular spot on floor " << carsList[i][j].get_floorNum()
-                        << ", spot " << carsList[i][j].get_spaceNum() << ". Have a good day." << endl;
+                        cout << "You have been assigned a regular space on floor " << carsList[i][j].get_floorNum()
+                        << ", space " << carsList[i][j].get_spaceNum() << ". Have a good day." << endl;
                         goto successfulPark;
 					}
 				}
@@ -495,7 +524,7 @@ int main(int argc, char * argv[]) {
 		}
 
         //Payment options (cash or credit)
-		cout << "Would you like to pay with/n1. Cash/n2. Card" << endl;
+		cout << "Would you like to pay with\n1. Cash\n2. Card" << endl;
 		cin >> paymentChoice;
 		while (cin.fail()) {
 			cin.clear(); //Resets the flags so you can input again
@@ -612,13 +641,128 @@ int main(int argc, char * argv[]) {
 
 		break;
 	}
+
+	case 4:
+    {
+        //managers initialized
+        //usernames are first names and password is set to "password" by default
+        //but can be changed
+        Manager* clayton = new Manager("clayton");
+        Manager* zahin = new Manager("zahin");
+        Manager* neha = new Manager("neha");
+        Manager* andrew = new Manager("andrew");
+        Manager* topher = new Manager("topher");
+        Manager* harsh = new Manager("harsh");
+
+        //input variables from the user
+        string username = "";
+        string password = "";
+
+
+        managerMenu:
+        cout << "~Login~" << endl;
+        cout << "Manager Username: " << endl;
+        cin >> username;
+
+        incorrectPass:
+        cout << "Manager Password: " << endl;
+        cin >> password;
+
+
+        //series of if else statements that checks the login for managers
+        //if an incorrect username or password is entered, the program asks again
+        if(username.compare(clayton->get_username()) == 0 ){
+            if(password.compare(clayton->get_password()) == 0){
+                goto next;
+            }else{
+            cout << "\nIncorrect Password, please try again.\n" << endl;
+            goto incorrectPass;
+            }
+        }
+
+
+        if(username.compare(zahin->get_username()) == 0 ){
+            if(password.compare(zahin->get_password()) == 0){
+                goto next;
+            }else{
+            cout << "\nIncorrect Password, please try again.\n" << endl;
+            goto incorrectPass;
+            }
+        }
+
+
+
+        if(username.compare(neha->get_username()) == 0 ){
+            if(password.compare(neha->get_password()) == 0){
+                goto next;
+            }else{
+            cout << "\nIncorrect Password, please try again.\n" << endl;
+            goto incorrectPass;
+            }
+        }
+
+
+
+        if(username.compare(andrew->get_username()) == 0 ){
+            if(password.compare(andrew->get_password()) == 0){
+                goto next;
+            }else{
+            cout << "\nIncorrect Password, please try again.\n" << endl;
+            goto incorrectPass;
+            }
+        }
+
+
+        if(username.compare(topher->get_username()) == 0 ){
+            if(password.compare(topher->get_password()) == 0){
+                goto next;
+            }else{
+            cout << "\nIncorrect Password, please try again.\n" << endl;
+            goto incorrectPass;
+            }
+        }
+
+
+
+        if(username.compare(harsh->get_username()) == 0 ){
+            if(password.compare(harsh->get_password()) == 0){
+                goto next;
+            }else{
+            cout << "\nIncorrect Password, please try again.\n" << endl;
+            goto incorrectPass;
+            }
+        }
+
+
+        cout << "\nUsername not recognized, try again.\n" << endl;
+        goto managerMenu;
+
+
+        //only reaches this point after successful login
+        next:
+        cout << "Successful Login\n" << endl;
+        cout << "MANAGER MENU:\n" << endl;
+        cout << "1. Print All License Plates" << endl;
+        //prints a list of the current license plates in the garage
+        cout << "2. Print Space Info" << endl;
+        //prints out all details associated with a particular space
+        //isOccupied == true, then prints all details
+        //if false, informs user that the space is empty
+        cout<< "3. Change Password" << endl;
+        //gives user the choice to change password
+
+
+       break;
+    }
+
+
 	default:
 		cout << "That wasn't an option. Goodbye";
 		break;
 
 	}//end of big switch statement
 
-	cout << "Enter 1 to Continue to Main Menu, 0 to Exit: ";
+	cout << "Enter 1 to Continue to Main Menu, 0 to Exit: \n";
 	cin >> quit;
 		}while (quit == 1);
 
