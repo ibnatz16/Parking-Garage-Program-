@@ -343,15 +343,15 @@ int main(int argc, char * argv[]) {
 		//asks for make, model, color, and license plate of vehicle
 		cout << "Please enter your vehicle's make:" << endl;
 		cin >> makeInput;
-		car.set_make(makeInput);
+		//car.set_make(makeInput);
 
 		cout << "Please enter your vehicle's model:" << endl;
 		cin >> modelInput;
-		car.set_model(modelInput);
+		//car.set_model(modelInput);
 
 		cout << "Please enter your vehicle's color:" << endl;
 		cin >> colorInput;
-		car.set_color(colorInput);
+		//car.set_color(colorInput);
 
 		cout << "Please enter a 6 character license plate number:" << endl;
 		cin >> lpInput;
@@ -371,8 +371,7 @@ int main(int argc, char * argv[]) {
 		}
 		car.set_lpNum(lpInput);
 
-		//now the car needs to be assigned to a spot
-		//using first fit logic
+		//assigns new car object to a place in the carsList 2d array
 		if (car.get_isVIP() == true) {
 			for (int i = 0; i < NUM_FLOORS; i++) {
 				for (int j = 0; j < NUM_SPACES; j++) {
@@ -380,34 +379,59 @@ int main(int argc, char * argv[]) {
 						carsList[i][j].set_floorNum(i+1);
 						carsList[i][j].set_spaceNum(j+1);
 						carsList[i][j].set_isOccupied(true);
-						goto parkedVIP;
+						carsList[i][j].set_make(makeInput);
+						carsList[i][j].set_model(modelInput);
+						carsList[i][j].set_color(colorInput);
+                        carsList[i][j].set_timePeriod(car.get_timePeriod());
+                        carsList[i][j].set_moneyOwed(car.get_moneyOwed());
+						cout << "You have been assigned a VIP spot on floor " << carsList[i][j].get_floorNum()
+                        << ", spot " << carsList[i][j].get_spaceNum() << ". Have a great day sir/madame!" << endl;
+                        goto successfulPark;
 					}
 				}
+				//VIP floor is full, user picks between exiting or Regular Parking
 				if (i == 0) {
-					cout << "I'm sorry, VIP parking is full.";
+                    int temp =0;
+					cout << "I'm sorry, VIP parking is full. You may either\n1. Use Regular Parking\n2. Exit" <<endl;
+                    cin >> temp;
+
+                    if(temp == 1){
+                        //resets isVIP to false because first floor is full
+                        car.set_isVIP(false);
+                        goto regularSpot;
+                    }else{
+                        //exits program
+                        return 0;
+                    }
+
+
 				}
 			}
-			parkedVIP:
-			cout << "You have been assigned a VIP spot on floor " << car.get_floorNum()
-				<< ", spot " << car.get_spaceNum() << ". Have a great day sir/madame!" << endl;
+
 		}
 		else {
+                regularSpot:
 			for (int i = 1; i < NUM_FLOORS; i++) {
 				for (int j = 0; j < NUM_SPACES; j++) {
 					if (carsList[i][j].get_isOccupied() == false) {
 						carsList[i][j].set_floorNum(i+1);
 						carsList[i][j].set_spaceNum(j+1);
 						carsList[i][j].set_isOccupied(true);
-						goto parkedRegular;
+						carsList[i][j].set_make(makeInput);
+						carsList[i][j].set_model(modelInput);
+						carsList[i][j].set_color(colorInput);
+                        carsList[i][j].set_timePeriod(car.get_timePeriod());
+                        carsList[i][j].set_moneyOwed(car.get_moneyOwed());
+                        cout << "You have been assigned a regular spot on floor " << carsList[i][j].get_floorNum()
+                        << ", spot " << carsList[i][j].get_spaceNum() << ". Have a good day." << endl;
+                        goto successfulPark;
 					}
 				}
 			}
-			parkedRegular:
-			cout << "You have been assigned a regular spot on floor " << car.get_floorNum()
-				<< ", spot " << car.get_spaceNum() << ". Have a good day." << endl;
+
 		}
 
-
+        successfulPark:
 
 
 		break; //end of the case 1, car arriving in the parkinglot
@@ -441,9 +465,10 @@ int main(int argc, char * argv[]) {
 		if(carsList[floorTemp - 1][spaceTemp-1].get_isOccupied() == true){
             cout << "Please re-enter your license plate number to ensure you receive the correct bill:" << endl;
                 cin >> temp;
+                string s = carsList[floorTemp - 1][spaceTemp - 1].get_lpNum();
 
                 //checks if entered lpNum matches the one provided during car registration
-                if(carsList[floorTemp - 1][spaceTemp - 1].get_lpNum().compare(temp) == 0){
+                if(s.compare(temp)){
                     cout << "You have parked your " << carsList[floorTemp - 1][spaceTemp - 1].get_color() << " "
                     << carsList[floorTemp - 1][spaceTemp - 1].get_make()
                     << " " << carsList[floorTemp - 1][spaceTemp - 1].get_model() << " for "
@@ -456,7 +481,7 @@ int main(int argc, char * argv[]) {
                     carsList[floorTemp - 1][spaceTemp - 1].set_isOccupied(false);
                 }
                 //error case - space is occupied but provided license plate doesn't match
-                if(carsList[floorTemp - 1][spaceTemp - 1].get_lpNum().compare(temp) != 0){
+                else{
                     cout << "The license plate number you entered did not match the car space provided."
                     << "\nTo ensure you aren't trying to park-n-dash or steal a car, please try again!" << endl;
                     goto checkoutProcess;
@@ -592,7 +617,8 @@ int main(int argc, char * argv[]) {
 		break;
 
 	}//end of big switch statement
-	cout << "again? ";
+
+	cout << "Enter 1 to Continue to Main Menu, 0 to Exit: ";
 	cin >> quit;
 		}while (quit == 1);
 
