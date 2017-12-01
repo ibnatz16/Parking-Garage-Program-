@@ -33,18 +33,24 @@ class Car{
         bool get_isOccupied();
         bool get_isVIP();
 
+        //constructor
+        Car ();
+
+        //Chris's findCar method
+       // int findCar (int spaces, int floors, string plate);
+
         private:
         //All car variable declarations
         string color;
         string make;
         string model;
         string lpNum;
-        int floorNum = 0;
-        int spaceNum = 0;
-        int timePeriod = 0;
-        double moneyOwed = 0;
-        bool isOccupied = false;
-        bool isVIP = false;
+        int floorNum;
+        int spaceNum;
+        int timePeriod;
+        double moneyOwed;
+        bool isOccupied;
+        bool isVIP;
 
 };
 
