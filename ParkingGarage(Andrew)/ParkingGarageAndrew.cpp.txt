@@ -365,8 +365,8 @@ int main(int argc, char * argv[]) {
 		}
 		//checks that each character in the string is either a number or a letter
 		for (int i = 0; i < 6; i++) {
-			if (isalnum(lpInput.at(i)) != 0) {
-				cout << "You entered an invalid character."
+			if (isalnum(lpInput.at(i)) == false) {
+				cout << "You entered an invalid character. "
 					<< "Please enter a license plate with only numbers and letters." << endl;
 				cin >> lpInput;
 			}
@@ -375,25 +375,43 @@ int main(int argc, char * argv[]) {
 
 		//now the car needs to be assigned to a spot
 		//using first fit logic
-		for (int i = 0; i < NUM_FLOORS; i++) {
-			for (int j = 0; j < NUM_SPACES; j++) {
-				if (carsList[i][j].get_isOccupied() == false) {
-					carsList[i][j].set_floorNum(i);
-					carsList[i][j].set_spaceNum(j);
-					carsList[i][j].set_isOccupied(true);
-					goto parked;
+		if (car.get_isVIP() == true) {
+			for (int i = 0; i < NUM_FLOORS; i++) {
+				for (int j = 0; j < NUM_SPACES; j++) {
+					if (carsList[i][j].get_isOccupied() == false) {
+						carsList[i][j].set_floorNum(i+1);
+						carsList[i][j].set_spaceNum(j+1);
+						carsList[i][j].set_isOccupied(true);
+						goto parkedVIP;
+					}
+				}
+				if (i == 0) {
+					cout << "I'm sorry, VIP parking is full.";
 				}
 			}
+			parkedVIP:
+			cout << "You have been assigned a VIP spot on floor " << car.get_floorNum()
+				<< ", spot " << car.get_spaceNum() << ". Have a great day sir/madame!" << endl;
 		}
-	parked:
-		//cout << "floor num " << car.get_floorNum() << endl;
-		//cout << "space num " << car.get_spaceNum() << endl;
-		//break;
+		else {
+			for (int i = 1; i < NUM_FLOORS; i++) {
+				for (int j = 0; j < NUM_SPACES; j++) {
+					if (carsList[i][j].get_isOccupied() == false) {
+						carsList[i][j].set_floorNum(i+1);
+						carsList[i][j].set_spaceNum(j+1);
+						carsList[i][j].set_isOccupied(true);
+						goto parkedRegular;
+					}
+				}
+			}
+			parkedRegular:
+			cout << "You have been assigned a regular spot on floor " << car.get_floorNum()
+				<< ", spot " << car.get_spaceNum() << ". Have a good day." << endl;
+		}
 
-		//}
-		//	}while (quit == 1);
-		cout << "You have been assigned a spot on floor " << /*car.get_floorNum
-			<< ", spot " << car.get_spaceNum <<*/ ". Have a good day!" << endl;
+
+	
+
 		break; //end of the case 1, car arriving in the parkinglot
 	}
 	case 2:
@@ -534,7 +552,7 @@ int main(int argc, char * argv[]) {
 		//get floorNum and spaceNum when correct object is found and display them to the user
 		for (int i = 0; i < NUM_FLOORS; i++) {
 			for (int j = 0; j < NUM_SPACES; j++) {
-				if (lpTemp.compare(carsList[i][j].get_lpNum) == 0) {
+				if (lpTemp.compare(carsList[i][j].get_lpNum()) == 0) {
 					floorNum = i + 1; //arrays start at 0, but parking garages don't!
 					spaceNum = j + 1;
 				}
