@@ -3,6 +3,7 @@
 #include <string.h>
 #include <vector>
 #include <stdlib.h>
+//#include <unistd.h>
 #include <conio.h>
 #include <windows.h>
 #include "parkingGarage.h"
@@ -171,13 +172,14 @@ int main(int argc, char * argv[]) {
 	const int NUM_SPACES = atoi(argv[2]); //Number of spaces PER FLOOR
 	const int SPACES_TOTAL = NUM_FLOORS * NUM_SPACES;
 
-	int mainMenuChoice, VIPchoice, timeChoice = 0; //neha
+	int mainMenuChoice, VIPchoice, timeChoice, managerMenuChoice = 0; //neha
 	int floorTemp, spaceTemp; //austin
 	int paymentChoice, receiptChoice;
 	double payment, cash, change;
 	string makeInput, modelInput, colorInput, lpInput, lpTemp; //austin
 	double fee; //austin
 	int quit;
+	double vipCount = 0.0, regularCount = 0.0, totalProjected = 0.0, profitCount = 0.0;
 
 	//declaring number of floors in the parking garage
 	Car ** carsList = new Car*[NUM_FLOORS];
@@ -194,6 +196,7 @@ int main(int argc, char * argv[]) {
 	do {
 		cout << "What would you like to do? (Enter the number of your choice): " << endl;
 
+	MainMenuQuestion:
 		cout << "\n1. Park my Car" << endl;
 		cout << "2. Retrieve my car (checkout and pay)" << endl;
 		cout << "3. Find my Car (I lost it!)" << endl;
@@ -208,6 +211,10 @@ int main(int argc, char * argv[]) {
 			cin >> mainMenuChoice;
 		}
 
+		if (mainMenuChoice < 1 || mainMenuChoice > 4) {
+			cout << "That wasn't an option.\n";
+			goto MainMenuQuestion;
+		}
 
 		switch (mainMenuChoice) {
 
@@ -224,6 +231,7 @@ int main(int argc, char * argv[]) {
 
 			//prints out regular rates
 			cout << "\nOur Regular Rates:" << endl;
+			cout << "\--------------------" << endl;
 			cout << "\t<1 hour: $10" << endl;
 			cout << "\t1 - 3 hour(s): $12.50" << endl;
 			cout << "\t3 - 6 hours: $17.50" << endl;
@@ -232,6 +240,7 @@ int main(int argc, char * argv[]) {
 
 			//prints out VIP rates
 			cout << "\nOur VIP Rates:" << endl;
+			cout << "\--------------------" << endl;
 			cout << "\t<1 hour: $20" << endl;
 			cout << "\t1 - 3 hours: $22.50" << endl;
 			cout << "\t3 - 6 hours: $27.50" << endl;
@@ -240,12 +249,14 @@ int main(int argc, char * argv[]) {
 
 
 			//asks to pick regular or VIP rates
-
-			cout << "Would you like to park regular or VIP?" << endl;
+			//if vip is full, say sorry, only regular spaces available
 		VIPquestion:
+			cout << "Would you like to park regular or VIP?" << endl;
+			cout << "\--------------------" << endl;
+		
 			cout << "1. Regular" << endl;
-			cout << "2. VIP" << endl;
-			cout << "3. JK I don't want to park you guys are too expensive" << endl;
+			cout << "2. VIP (VIPs get first floor parking!)" << endl;
+			cout << "3. I don't want to park, this garage is too expensive" << endl;
 			cout << "Choice: ";
 
 			cin >> VIPchoice;
@@ -257,9 +268,10 @@ int main(int argc, char * argv[]) {
 			}
 
 			if (VIPchoice != 1 && VIPchoice != 2 && VIPchoice != 3) {
-				cout << "That wasn't an option.";
+				cout << "That wasn't an option, please choose from the given options.\n";
 				goto VIPquestion;
 			}
+
 			switch (VIPchoice) {
 				//user chooses regular rates
 			case 1:
@@ -270,16 +282,19 @@ int main(int argc, char * argv[]) {
 				car.set_isVIP(true);
 				break;
 			case 3:
-				cout << "goodbye, thanks for nothing";
-				return 0;
+				cout << "Sorry if our prices are too high. Please consider reemployment!\n";
+				goto RepeatProgram;
 				break;
 			default:
-				cout << "Goodbye";
+				cout << "If you see this message, something is broken.";
 				break;
 			}//end of VIP switch statement
 
 			 //asks which time period they will be paying for
 			cout << "How long would you like to stay?" << endl;
+			cout << "\--------------------" << endl;
+			
+		TimeQuestion:
 			cout << "1. <1 hour" << endl;
 			cout << "2. 1 - 3 hours" << endl;
 			cout << "3. 3 - 6 hours" << endl;
@@ -293,6 +308,11 @@ int main(int argc, char * argv[]) {
 				cin.ignore(100, '\n'); //Empty the buffer
 				cout << "Please enter an integer!\n";
 				cin >> timeChoice;
+			}
+
+			if (timeChoice < 1 || timeChoice > 5) {
+				cout << "That wasn't an option, please choose from the available options.\n\n";
+				goto TimeQuestion;
 			}
 
 			switch (timeChoice) {
@@ -317,7 +337,7 @@ int main(int argc, char * argv[]) {
 				car.set_timePeriod(5);
 				break;
 			default:
-				cout << "That wasn't an option. Goodbye";
+				cout << "If you see this message something is broken.";
 				break;
 			}//end of time period switch statement
 
@@ -382,6 +402,7 @@ int main(int argc, char * argv[]) {
 			cin >> colorInput;
 			//car.set_color(colorInput);
 
+			EnterLicensePlate:
 			cout << "Please enter a 6 character license plate number:" << endl;
 			cin >> lpInput;
 
@@ -390,6 +411,64 @@ int main(int argc, char * argv[]) {
 				cout << "Please enter a 6 character license plate number:";
 				cin >> lpInput;
 			}
+
+			for (int i = 0; i < NUM_FLOORS; i++){
+				for (int j = 0; j < NUM_SPACES; j++) {
+					if (lpInput.compare(carsList[i][j].get_lpNum()) == 0) {
+						int lpMistake = 0;
+						cout << "\nThis car is already parked in the garage, and is located at:" <<
+							"\nFloor " << carsList[i][j].get_floorNum() <<
+							"\nSpace " << carsList[i][j].get_spaceNum();
+
+						lpMistakeQuestion:
+						cout << "\nWould you \n" <<
+							"1. Like to enter a different license plate number\n"
+							"2. Like to retrieve your already parked car\n" <<
+							"3. Like to find your lost car\n" <<
+							"4. Like to leave the garage (restart the program)";
+
+						cin >> lpMistake;
+						while (cin.fail()) {
+							cin.clear(); //Resets the flags so you can input again
+							cin.ignore(100, '\n'); //Empty the buffer
+							cout << "Please enter an integer!\n";
+							cin >> lpMistake;
+						}
+
+						if (lpMistake < 1 || lpMistake > 4) {
+							cout << "That wasn't an option, please choose from the available options.\n\n";
+							goto lpMistakeQuestion;
+						}
+						
+						switch (lpMistake) {
+							case 1: {
+								goto EnterLicensePlate;
+								break;
+							}
+							case 2: {
+								goto RetrieveCar;
+								break;
+							}
+							case 3: {
+								goto FindLostCar;
+								break;
+							}
+							case 4: {
+								goto RepeatProgram;
+								break;
+							}
+							default: {
+								cout << "If you see this message something is broken.";
+								break;
+							}
+
+						}
+					}
+				}
+			}
+
+
+
 			//checks that each character in the string is either a number or a letter
 			for (int i = 0; i < 6; i++) {
 				if (isalnum(lpInput.at(i)) == false) {
@@ -398,7 +477,7 @@ int main(int argc, char * argv[]) {
 					cin >> lpInput;
 				}
 			}
-			car.set_lpNum(lpInput);
+
 
 			//assigns new car object to a place in the carsList 2d array
 			if (car.get_isVIP() == true) {
@@ -412,6 +491,7 @@ int main(int argc, char * argv[]) {
 							carsList[i][j].set_make(makeInput);
 							carsList[i][j].set_model(modelInput);
 							carsList[i][j].set_color(colorInput);
+							carsList[i][j].set_lpNum(lpInput);
 							carsList[i][j].set_timePeriod(car.get_timePeriod());
 							carsList[i][j].set_moneyOwed(car.get_moneyOwed());
 							cout << "You have been assigned a VIP space on floor " << carsList[i][j].get_floorNum()
@@ -451,6 +531,7 @@ int main(int argc, char * argv[]) {
 							carsList[i][j].set_make(makeInput);
 							carsList[i][j].set_model(modelInput);
 							carsList[i][j].set_color(colorInput);
+							carsList[i][j].set_lpNum(lpInput);
 							carsList[i][j].set_timePeriod(car.get_timePeriod());
 							carsList[i][j].set_moneyOwed(car.get_moneyOwed());
 							cout << "You have been assigned a regular space on floor " << carsList[i][j].get_floorNum()
@@ -469,12 +550,14 @@ int main(int argc, char * argv[]) {
 		}
 		case 2:
 		{
+			RetrieveCar:
 			string temp = "";
 			string timePeriod = "";
 
 			//checkout and pay
 
 			cout << "Thank you for parking with Zanach!" << endl;
+
 		checkoutProcess:
 			cout << "Please enter your floor number:" << endl;
 			cin >> floorTemp;
@@ -498,11 +581,11 @@ int main(int argc, char * argv[]) {
 				cout << "Please re-enter your license plate number to ensure you receive the correct bill:" << endl;
 				cin >> temp;
 				string s = carsList[floorTemp - 1][spaceTemp - 1].get_lpNum();
+				cout << s;
 
 				//checks if entered lpNum matches the one provided during car registration
-				if (s.compare(temp)) {
+				if (s.compare(temp) == 0) {
 
-					
 					if (carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 1) {
 						timePeriod = "less than 1 hour.";
 					}
@@ -523,12 +606,12 @@ int main(int argc, char * argv[]) {
 						<< carsList[floorTemp - 1][spaceTemp - 1].get_make()
 						<< " " << carsList[floorTemp - 1][spaceTemp - 1].get_model() << " for "
 						<< timePeriod << endl;
-					
+
 					string money;
 					//gets moneyOwed from car if it is parked there and asks the user for payment
 					(carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 1 ? money = ".00." : money = "0.");
 					cout << "\nYour total comes out to $" << carsList[floorTemp - 1][spaceTemp - 1].get_moneyOwed() << money << endl;
-					
+
 
 					//resets the space as empty so another car can be parked there
 					carsList[floorTemp - 1][spaceTemp - 1].set_isOccupied(false);
@@ -549,6 +632,7 @@ int main(int argc, char * argv[]) {
 			}
 
 			//Payment options (cash or credit)
+		PaymentQuestion:
 			cout << "Would you like to pay with\n1. Cash\n2. Card" << endl;
 			cin >> paymentChoice;
 			while (cin.fail()) {
@@ -556,6 +640,10 @@ int main(int argc, char * argv[]) {
 				cin.ignore(100, '\n'); //Empty the buffer
 				cout << "Please enter an integer!\n";
 				cin >> paymentChoice;
+			}
+			if (paymentChoice < 1 || paymentChoice > 2) {
+				cout << "That wasn't an option.\n";
+				goto PaymentQuestion;
 			}
 
 			if (paymentChoice == 1) {
@@ -580,7 +668,9 @@ int main(int argc, char * argv[]) {
 							<< "Please input additional cash payment.";
 					}
 					else if (change == 0) {
-						cout << "Your change is $0.00. Would you like a receipt?\n1. Yes\n2. No\n";
+						cout << "Your change is $0.00. ";
+					ReceiptCashQuestion1:
+						cout << "Would you like a receipt?\n1. Yes\n2. No\n";
 						cin >> receiptChoice;
 						while (cin.fail()) {
 							cin.clear(); //Resets the flags so you can input again
@@ -588,7 +678,11 @@ int main(int argc, char * argv[]) {
 							cout << "Please enter an integer!\n";
 							cin >> receiptChoice;
 						}
-						if (receiptChoice == 1) {
+						if (receiptChoice < 1 || receiptChoice > 2) {
+							cout << "That wasn't an option.\n";
+							goto ReceiptCashQuestion1;
+						}
+						else if (receiptChoice == 1) {
 							//printReceipt()
 						}
 						cout << "Thank you, and have a great day!";
@@ -598,8 +692,10 @@ int main(int argc, char * argv[]) {
 
 						string money;
 						(carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 1 ? money = ".00." : money = "0.");
-					
-						cout << "Your change is $" << change << money << " Would you like a receipt?\n1. Yes\n2. No\n";
+
+						cout << "Your change is $" << change << money << ". ";
+					ReceiptCashQuestion2:
+						cout << "Would you like a receipt?\n1.Yes\n2.No\n";
 						cin >> receiptChoice;
 						while (cin.fail()) {
 							cin.clear(); //Resets the flags so you can input again
@@ -607,27 +703,31 @@ int main(int argc, char * argv[]) {
 							cout << "Please enter an integer!\n";
 							cin >> receiptChoice;
 						}
-						if (receiptChoice == 1) {
+						if (receiptChoice < 1 || receiptChoice > 2) {
+							cout << "That wasn't an option.\n";
+							goto ReceiptCashQuestion2;
+						}
+						else if (receiptChoice == 1) {
 
 							string money;
 							//gets moneyOwed from car if it is parked there and asks the user for payment
 							(carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 1 ? money = ".00." : money = "0.");
-							
+
 							cout << "  ______________________________________________________\n";
-							cout << " |  Thank for for parking at the Zanach Parking Garage\t|\n" << 
-										" |\t\t\t\t\t\t\t|\n";
+							cout << " |  Thank for for parking at the Zanach Parking Garage\t|\n" <<
+								" |\t\t\t\t\t\t\t|\n";
 							if (carsList[floorTemp - 1][spaceTemp - 1].get_isVIP() == true) {
-								cout << " |  You were a VIP today!\t\t\t\t|\n |  You're more important than other people.\t\t|" << 
-										"\n |\t\t\t\t\t\t\t|\n";
+								cout << " |  You were a VIP today!\t\t\t\t|\n |  You're more important than other people.\t\t|" <<
+									"\n |\t\t\t\t\t\t\t|\n";
 							}
-							cout << " |  You parked for " << timePeriod << "\t\t\t|\n" << 
-										" |\t\t\t\t\t\t\t|\n";
+							cout << " |  You parked for " << timePeriod << "\t\t\t|\n" <<
+								" |\t\t\t\t\t\t\t|\n";
 							cout << " |  Total: $" << carsList[floorTemp - 1][spaceTemp - 1].get_moneyOwed() << money << "\t\t\t\t\t|\n";
 							cout << " |  You paid $" << payment << ".00 in cash\t\t\t\t|\n";
-							cout << " |  Change: $" << change << "0.\t\t\t\t\t|\n" << 
-										" |\t\t\t\t\t\t\t|\n";
-							cout << " |  ---\t\t\t\t\t\t\t|\n" << 
-										" |\t\t\t\t\t\t\t|\n";
+							cout << " |  Change: $" << change << "0.\t\t\t\t\t|\n" <<
+								" |\t\t\t\t\t\t\t|\n";
+							cout << " |  ---\t\t\t\t\t\t\t|\n" <<
+								" |\t\t\t\t\t\t\t|\n";
 							cout << " |  Questions, comments, or concerns? \t\t\t|\n";
 							cout << " |  Contact Us: 1-(800)-1-ZANACH\t\t\t|\n";
 							cout << "  ______________________________________________________\n";
@@ -649,7 +749,9 @@ int main(int argc, char * argv[]) {
 				cout << ".";
 				Sleep(1000);
 				cout << ".\n"
-					<< "Accepted. would you like a receipt?\n1. Yes\n2. No\n";
+					<< "Accepted. ";
+			ReceiptCardQuestion:
+				cout << "Would you like a receipt?\n1.Yes\n2.No\n";
 				cin >> receiptChoice;
 				while (cin.fail()) {
 					cin.clear(); //Resets the flags so you can input again
@@ -657,7 +759,11 @@ int main(int argc, char * argv[]) {
 					cout << "Please enter an integer!\n";
 					cin >> receiptChoice;
 				}
-				if (receiptChoice == 1) {
+				if (receiptChoice < 1 || receiptChoice > 2) {
+					cout << "That wasn't an option.\n";
+					goto ReceiptCardQuestion;
+				}
+				else if (receiptChoice == 1) {
 					//printReceipt()
 					string money;
 					//gets moneyOwed from car if it is parked there and asks the user for payment
@@ -673,8 +779,8 @@ int main(int argc, char * argv[]) {
 					cout << " |  You parked for " << timePeriod << "\t\t\t|\n" <<
 						" |\t\t\t\t\t\t\t|\n";
 					cout << " |  Total: $" << carsList[floorTemp - 1][spaceTemp - 1].get_moneyOwed() << money << "\t\t\t\t\t|\n";
-					cout << " |  You paid with card **** **** **** 3503\t\t|\n" << 
-							" |\t\t\t\t\t\t\t|\n";
+					cout << " |  You paid with card **** **** **** 3503\t\t|\n" <<
+						" |\t\t\t\t\t\t\t|\n";
 					cout << " |  ---\t\t\t\t\t\t\t|\n" <<
 						" |\t\t\t\t\t\t\t|\n";
 					cout << " |  Questions, comments, or concerns? \t\t\t|\n";
@@ -691,8 +797,9 @@ int main(int argc, char * argv[]) {
 		}
 		case 3:
 		{
-			int floorNum = 0;
-			int spaceNum = 0;
+			FindLostCar:
+			int floorNum = 1;
+			int spaceNum = 1;
 
 			//asks user for license plate number to locate correct car object
 			cout << "Please enter your license plate number:" << endl;
@@ -707,10 +814,12 @@ int main(int argc, char * argv[]) {
 					if (lpTemp.compare(carsList[i][j].get_lpNum()) == 0) {
 						floorNum = i + 1; //arrays start at 0, but parking garages don't!
 						spaceNum = j + 1;
+						goto FoundCar;
 					}
 				}
 			}
 
+		FoundCar:
 			cout << "Your " << carsList[floorNum - 1][spaceNum - 1].get_color() << " " << carsList[floorNum - 1][spaceNum - 1].get_make() << " "
 				<< carsList[floorNum - 1][spaceNum - 1].get_model() << " is located on floor " << floorNum << " in space " << spaceNum << "." << endl;
 
@@ -822,20 +931,268 @@ int main(int argc, char * argv[]) {
 			//only reaches this point after successful login
 		next:
 			cout << "Successful Login\n" << endl;
-			cout << "MANAGER MENU:\n" << endl;
-			cout << "1. Print All License Plates" << endl;
-			//prints a list of the current license plates in the garage
-			cout << "2. Print Space Info" << endl;
-			//prints out all details associated with a particular space
-			//isOccupied == true, then prints all details
-			//if false, informs user that the space is empty
-			cout << "3. Change Password" << endl;
-			//gives user the choice to change password
+
+			int quitManager = 1;
+
+			//while loop for manager menu
+			while (quitManager == 1) {
+
+				cout << "MANAGER MENU:\n" << endl;
+
+				//prints a list of the current license plates in the garage
+				cout << "1. Print All License Plates" << endl;
+
+				//prints out all details associated with a particular space
+				//isOccupied == true, then prints all details
+				//if false, informs user that the space is empty
+				cout << "2. Print Space Info" << endl;
+
+				//Prints total of all money paid today
+				cout << "3. Print Current Profit" << endl;
+
+				//prints projected profit
+				cout << "4. Projected Profit" << endl;
+
+				//gives user the choice to change password
+				cout << "5. Change Password" << endl;
 
 
-			break;
+
+
+				cout << "Choice: ";
+				cin >> managerMenuChoice;
+
+
+				while (cin.fail()) {
+					cin.clear(); //Resets the flags so you can input again
+					cin.ignore(100, '\n'); //Empty the buffer
+					cout << "Please enter an integer!\n";
+					cin >> managerMenuChoice;
+				}
+
+
+				//switch case for manager menu
+				switch (managerMenuChoice) {
+
+					//Printing license plates
+				case 1:
+				{
+					for (int i = 0; i < NUM_FLOORS; i++) {
+						for (int j = 0; i < NUM_SPACES; j++) {
+							if (carsList[i][j].get_lpNum().empty() == false) {
+								cout << "Current License Plates in the Garage:\n " << carsList[i][j].get_lpNum() << "\n" << endl;
+							}
+						}
+					}
+
+					break;
+				}
+
+
+				//Prints space info
+				case 2:
+				{
+					//temp inputs for car location
+					int temp1 = 0;
+					int temp2 = 0;
+
+					cout << "Floor Number: " << endl;
+					cin >> temp1;
+
+					while (cin.fail()) {
+						cin.clear(); //Resets the flags so you can input again
+						cin.ignore(100, '\n'); //Empty the buffer
+						cout << "Please enter an integer!\n";
+						cin >> temp1;
+					}
+
+					cout << "Space Number:" << endl;
+					cin >> temp2;
+
+					while (cin.fail()) {
+						cin.clear(); //Resets the flags so you can input again
+						cin.ignore(100, '\n'); //Empty the buffer
+						cout << "Please enter an integer!\n";
+						cin >> temp2;
+					}
+
+					//checks if a car is parked in the given space
+					cout << "\nSpace " << temp1 << "-" << temp2 << " Information:" << endl;
+
+					if (carsList[temp1 - 1][temp2 - 1].get_isOccupied() == true) {
+
+						if (carsList[temp1 - 1][temp2 - 1].get_isVIP() == true) {
+							cout << "VIP: Y" << endl;
+						}
+						else {
+							cout << "VIP: N" << endl;
+						}
+
+						cout << "License Plate: " << carsList[temp1 - 1][temp2 - 1].get_lpNum() << endl;
+						cout << "Color: " << carsList[temp1 - 1][temp2 - 1].get_color() << endl;
+						cout << "Make: " << carsList[temp1 - 1][temp2 - 1].get_make() << endl;
+						cout << "Model: " << carsList[temp1 - 1][temp2 - 1].get_model() << endl;
+						cout << "Fee: " << carsList[temp1 - 1][temp2 - 1].get_moneyOwed() << endl;
+
+
+					}
+					else {
+						cout << "That space is empty." << endl;
+					}
+
+
+					break;
+				}
+
+				//print today's profit
+				case 3:
+				{
+					cout << "The total profit made today: $";
+					cin >> profitCount;
+					break;
+				}
+
+				//prints projected money
+				case 4:
+				{
+					totalProjected = vipCount + regularCount;
+
+					cout << "The total projected profit for today is : $";
+					cin >> totalProjected;
+
+					break;
+				}
+
+				//change password
+				case 5:
+				{
+					string currentPass = "";
+					string currentUser = "";
+					string newPass = "";
+
+				passwordMenu:
+					cout << "Username: " << endl;
+					cin >> currentUser;
+
+				takeTwo:
+					cout << "Current Password: ";
+					cin >> currentPass;
+
+
+					//checks who wants to change their password
+					//must enter current password first, then can change it
+					if (currentUser.compare(clayton->get_username()) == 0) {
+						if (currentPass.compare(clayton->get_password()) == 0) {
+							cout << "New Password: " << endl;
+							cin >> newPass;
+
+							clayton->set_password(newPass);
+							goto success;
+
+						}
+						else {
+							cout << "\nIncorrect Password, please try again.\n" << endl;
+							goto takeTwo;
+						}
+					}
+
+
+					if (currentUser.compare(zahin->get_username()) == 0) {
+						if (currentPass.compare(zahin->get_password()) == 0) {
+							cout << "New Password: " << endl;
+							cin >> newPass;
+
+							zahin->set_password(newPass);
+							goto success;
+
+						}
+						else {
+							cout << "\nIncorrect Password, please try again.\n" << endl;
+							goto takeTwo;
+						}
+					}
+
+					if (currentUser.compare(neha->get_username()) == 0) {
+						if (currentPass.compare(neha->get_password()) == 0) {
+							cout << "New Password: " << endl;
+							cin >> newPass;
+
+							neha->set_password(newPass);
+							goto success;
+
+						}
+						else {
+							cout << "\nIncorrect Password, please try again.\n" << endl;
+							goto takeTwo;
+						}
+					}
+
+					if (currentUser.compare(andrew->get_username()) == 0) {
+						if (currentPass.compare(andrew->get_password()) == 0) {
+							cout << "New Password: " << endl;
+							cin >> newPass;
+
+							andrew->set_password(newPass);
+							goto success;
+
+						}
+						else {
+							cout << "\nIncorrect Password, please try again.\n" << endl;
+							goto takeTwo;
+						}
+					}
+
+					if (currentUser.compare(topher->get_username()) == 0) {
+						if (currentPass.compare(topher->get_password()) == 0) {
+							cout << "New Password: " << endl;
+							cin >> newPass;
+
+							topher->set_password(newPass);
+							goto success;
+
+						}
+						else {
+							cout << "\nIncorrect Password, please try again.\n" << endl;
+							goto takeTwo;
+						}
+					}
+
+					if (currentUser.compare(harsh->get_username()) == 0) {
+						if (currentPass.compare(harsh->get_password()) == 0) {
+							cout << "New Password: " << endl;
+							cin >> newPass;
+
+							harsh->set_password(newPass);
+							goto success;
+
+						}
+						else {
+							cout << "\nIncorrect Password, please try again.\n" << endl;
+							goto takeTwo;
+						}
+					}
+
+
+					cout << "\nUsername not recognized, try again.\n" << endl;
+					goto passwordMenu;
+
+
+				success:
+
+
+					break;
+				}
+
+
+				break;
+				}
+
+			
+				cout << "Enter 1 to continue to Manager Menu, 0 to Exit:";
+				cin >> quitManager;
+			}
+
 		}
-
 
 		default:
 			cout << "That wasn't an option. Goodbye";
@@ -843,6 +1200,7 @@ int main(int argc, char * argv[]) {
 
 		}//end of big switch statement
 
+		RepeatProgram:
 		cout << "Enter 1 to Continue to Main Menu, 0 to Exit: \n";
 		cin >> quit;
 	} while (quit == 1);
