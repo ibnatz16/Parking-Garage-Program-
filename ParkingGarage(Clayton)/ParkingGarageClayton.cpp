@@ -3,8 +3,7 @@
 #include <string.h>
 #include <vector>
 #include <stdlib.h>
-#include <conio.h>
-#include <windows.h>
+#include <unistd.h>
 #include "ParkingGarageClayton.h"
 #include "ParkingGarageManager.h"
 
@@ -169,9 +168,8 @@ int main(int argc, char * argv[]) {
 
 	const int NUM_FLOORS = atoi(argv[1]); //Number of floors
 	const int NUM_SPACES = atoi(argv[2]); //Number of spaces PER FLOOR
-	const int SPACES_TOTAL = NUM_FLOORS * NUM_SPACES;
 
-	int mainMenuChoice, VIPchoice, timeChoice = 0; //neha
+	int mainMenuChoice, VIPchoice, timeChoice, managerMenuChoice = 0; //neha
 	int floorTemp, spaceTemp; //austin
 	int paymentChoice, receiptChoice;
 	double payment, cash, change;
@@ -589,13 +587,13 @@ int main(int argc, char * argv[]) {
 		if (paymentChoice == 2) {
 
 			cout << "Please insert your card.\n";
-			Sleep(1500);
+			sleep(1500);
 			cout << "Authorizing";
-			Sleep(1000);
+			sleep(1000);
 			cout << ".";
-			Sleep(1000);
+			sleep(1000);
 			cout << ".";
-			Sleep(1000);
+			sleep(1000);
 			cout << ".\n"
 				<< "Accepted. would you like a receipt?\n1. Yes\n2. No\n";
 			cin >> receiptChoice;
@@ -741,18 +739,117 @@ int main(int argc, char * argv[]) {
         //only reaches this point after successful login
         next:
         cout << "Successful Login\n" << endl;
+
+        int quitManager = 1;
+
+        //while loop for manager menu
+        while(quitManager == 1){
+
         cout << "MANAGER MENU:\n" << endl;
-        cout << "1. Print All License Plates" << endl;
+
         //prints a list of the current license plates in the garage
-        cout << "2. Print Space Info" << endl;
+        cout << "1. Print All License Plates" << endl;
+
         //prints out all details associated with a particular space
         //isOccupied == true, then prints all details
         //if false, informs user that the space is empty
-        cout<< "3. Change Password" << endl;
+        cout << "2. Print Space Info" << endl;
+
+        //Prints total of all money paid today
+        cout << "3. Print Today's Profit" << endl;
+
         //gives user the choice to change password
+        cout<< "4. Change Password" << endl;
+
+
+        cout << "Choice: ";
+        cin >> managerMenuChoice;
+
+
+        while (cin.fail()) {
+            cin.clear(); //Resets the flags so you can input again
+            cin.ignore(100, '\n'); //Empty the buffer
+            cout << "Please enter an integer!\n";
+            cin >> managerMenuChoice;
+        }
+
+
+        //switch case for manager menu
+        switch (managerMenuChoice) {
+
+		//Printing license plates
+        case 1:
+            {
+
+                break;
+            }
+
+        //Prints space info
+        case 2:
+            {
+                //temp inputs for car location
+                int temp1 = 0;
+                int temp2 = 0;
+
+                cout << "Floor Number: " << endl;
+                cin >> temp1
+
+                while (cin.fail()) {
+                    cin.clear(); //Resets the flags so you can input again
+                    cin.ignore(100, '\n'); //Empty the buffer
+                    cout << "Please enter an integer!\n";
+                    cin >> temp1;
+                }
+
+                cout << "Space Number:" << endl;
+                cin >> temp2;
+
+                while (cin.fail()) {
+                    cin.clear(); //Resets the flags so you can input again
+                    cin.ignore(100, '\n'); //Empty the buffer
+                    cout << "Please enter an integer!\n";
+                    cin >> temp2;
+                }
+
+            //checks if a car is parked in the given space
+            cout << "\nSpace " << temp1 << "-" << temp2 << " Information:" endl;
+
+            if(carsList[temp1 - 1][temp - 1].get_isOccupied() == true){
+
+                if(carsList[temp1 - 1][temp2 - 1].get_isVIP() == true){
+                    cout << "VIP: Y" << endl;
+                }
+                else{
+                    cout << "VIP: N" << endl;
+                }
+
+                cout << "License Plate: " << carsList[temp1 - 1][temp2 - 1].get_lpNum() << endl;
+                cout << "Color: " << carsList[temp1 - 1][temp2 - 1].get_color() << endl;
+                cout << "Make: " << carsList[temp1 - 1][temp2 - 1].get_make() << endl;
+                cout << "Model: " << carsList[temp1 - 1][temp2 - 1].get_model() << endl;
+                cout << "Fee: " << carsList[temp1 - 1][temp2 - 1].get_moneyOwed() << endl;
+
+
+            }
+            else{
+                cout << "That space is empty." << endl;
+            }
+
+
+            break;
+        }
+
+    case 3:
+        {
+
+        }
 
 
        break;
+    }
+
+    cout << "Enter 1 to continue to Manager Menu, 0 to Exit:";
+    cin >> quitManager;
     }
 
 
