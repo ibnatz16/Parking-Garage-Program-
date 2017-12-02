@@ -413,7 +413,7 @@ int main(int argc, char * argv[]) {
 					cin >> lpInput;
 				}
 			}
-			car.set_lpNum(lpInput);
+
 
 			//assigns new car object to a place in the carsList 2d array
 			if (car.get_isVIP() == true) {
@@ -427,6 +427,7 @@ int main(int argc, char * argv[]) {
 							carsList[i][j].set_make(makeInput);
 							carsList[i][j].set_model(modelInput);
 							carsList[i][j].set_color(colorInput);
+							carsList[i][j].set_lpNum(lpInput);
 							carsList[i][j].set_timePeriod(car.get_timePeriod());
 							carsList[i][j].set_moneyOwed(car.get_moneyOwed());
 							cout << "You have been assigned a VIP space on floor " << carsList[i][j].get_floorNum()
@@ -466,6 +467,7 @@ int main(int argc, char * argv[]) {
 							carsList[i][j].set_make(makeInput);
 							carsList[i][j].set_model(modelInput);
 							carsList[i][j].set_color(colorInput);
+							carsList[i][j].set_lpNum(lpInput);
 							carsList[i][j].set_timePeriod(car.get_timePeriod());
 							carsList[i][j].set_moneyOwed(car.get_moneyOwed());
 							cout << "You have been assigned a regular space on floor " << carsList[i][j].get_floorNum()
@@ -729,8 +731,8 @@ int main(int argc, char * argv[]) {
 		}
 		case 3:
 		{
-			int floorNum = 0;
-			int spaceNum = 0;
+			int floorNum = 1;
+			int spaceNum = 1;
 
 			//asks user for license plate number to locate correct car object
 			cout << "Please enter your license plate number:" << endl;
@@ -745,10 +747,12 @@ int main(int argc, char * argv[]) {
 					if (lpTemp.compare(carsList[i][j].get_lpNum()) == 0) {
 						floorNum = i + 1; //arrays start at 0, but parking garages don't!
 						spaceNum = j + 1;
+						goto FoundCar;
 					}
 				}
 			}
 
+			FoundCar:
 			cout << "Your " << carsList[floorNum - 1][spaceNum - 1].get_color() << " " << carsList[floorNum - 1][spaceNum - 1].get_make() << " "
 				<< carsList[floorNum - 1][spaceNum - 1].get_model() << " is located on floor " << floorNum << " in space " << spaceNum << "." << endl;
 
