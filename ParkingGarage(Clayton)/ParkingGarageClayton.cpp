@@ -750,8 +750,12 @@ int main(int argc, char * argv[]) {
         //prints a list of the current license plates in the garage
         cout << "1. Print All License Plates" << endl;
             
-            for (int i = 0; i < sizeof(carsList[floorTemp][spaceTemp]); i++) {
+            for (int i = 0; i < NUM_FLOORS ; i++) {
                 cout << carsList[floorTemp - 1][spaceTemp - 1].get_lpNum() << endl;
+                
+                for (int j = 0; i < SNUM_SPACES)) {
+                    cout << carsList[spaceTemp-1].get_lpNum() << endl;
+                }
             }
 
         //prints out all details associated with a particular space
