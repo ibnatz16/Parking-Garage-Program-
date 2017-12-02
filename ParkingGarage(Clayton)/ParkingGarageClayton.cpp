@@ -3,7 +3,8 @@
 #include <string.h>
 #include <vector>
 #include <stdlib.h>
-#include <unistd.h>
+#include <conio.h>
+#include <windows.h>
 #include "ParkingGarageClayton.h"
 #include "ParkingGarageManager.h"
 
@@ -587,13 +588,13 @@ int main(int argc, char * argv[]) {
 		if (paymentChoice == 2) {
 
 			cout << "Please insert your card.\n";
-			sleep(1500);
+			Sleep(1500);
 			cout << "Authorizing";
-			sleep(1000);
+			Sleep(1000);
 			cout << ".";
-			sleep(1000);
+			Sleep(1000);
 			cout << ".";
-			sleep(1000);
+			Sleep(1000);
 			cout << ".\n"
 				<< "Accepted. would you like a receipt?\n1. Yes\n2. No\n";
 			cin >> receiptChoice;
@@ -781,7 +782,7 @@ int main(int argc, char * argv[]) {
         case 1:
             {
                 for (int i = 0; i < NUM_FLOORS ; i++) {
-                    for (int j = 0; i < NUM_SPACES)) {
+                    for (int j = 0; i < NUM_SPACES; j++) {
                         if(carsList[i][j].get_lpNum().empty() == false){
                            cout << "Current License Plates in the Garage:\n " << carsList[i][j].get_lpNum() << "\n" << endl;
                         }
@@ -800,7 +801,7 @@ int main(int argc, char * argv[]) {
                 int temp2 = 0;
 
                 cout << "Floor Number: " << endl;
-                cin >> temp1
+                cin >> temp1;
 
                 while (cin.fail()) {
                     cin.clear(); //Resets the flags so you can input again
@@ -822,7 +823,7 @@ int main(int argc, char * argv[]) {
             //checks if a car is parked in the given space
             cout << "\nSpace " << temp1 << "-" << temp2 << " Information:" << endl;
 
-            if(carsList[temp1 - 1][temp - 1].get_isOccupied() == true){
+            if(carsList[temp1 - 1][temp2 - 1].get_isOccupied() == true){
 
                 if(carsList[temp1 - 1][temp2 - 1].get_isVIP() == true){
                     cout << "VIP: Y" << endl;
@@ -872,7 +873,7 @@ int main(int argc, char * argv[]) {
         if(currentUser.compare(clayton->get_username()) == 0 ){
             if(currentPass.compare(clayton->get_password()) == 0){
                 cout << "New Password: " << endl;
-                cin << newPass;
+                cin >> newPass;
 
                 clayton->set_password(newPass);
                 goto success;
@@ -887,7 +888,7 @@ int main(int argc, char * argv[]) {
         if(currentUser.compare(zahin->get_username()) == 0 ){
             if(currentPass.compare(zahin->get_password()) == 0){
                 cout << "New Password: " << endl;
-                cin << newPass;
+                cin >> newPass;
 
                 zahin->set_password(newPass);
                 goto success;
@@ -901,7 +902,7 @@ int main(int argc, char * argv[]) {
         if(currentUser.compare(neha->get_username()) == 0 ){
             if(currentPass.compare(neha->get_password()) == 0){
                 cout << "New Password: " << endl;
-                cin << newPass;
+                cin >> newPass;
 
                 neha->set_password(newPass);
                 goto success;
@@ -915,7 +916,7 @@ int main(int argc, char * argv[]) {
         if(currentUser.compare(andrew->get_username()) == 0 ){
             if(currentPass.compare(andrew->get_password()) == 0){
                 cout << "New Password: " << endl;
-                cin << newPass;
+                cin >> newPass;
 
                 andrew->set_password(newPass);
                 goto success;
@@ -929,7 +930,7 @@ int main(int argc, char * argv[]) {
         if(currentUser.compare(topher->get_username()) == 0 ){
             if(currentPass.compare(topher->get_password()) == 0){
                 cout << "New Password: " << endl;
-                cin << newPass;
+                cin >> newPass;
 
                 topher->set_password(newPass);
                 goto success;
@@ -943,7 +944,7 @@ int main(int argc, char * argv[]) {
         if(currentUser.compare(harsh->get_username()) == 0 ){
             if(currentPass.compare(harsh->get_password()) == 0){
                 cout << "New Password: " << endl;
-                cin << newPass;
+                cin >> newPass;
 
                 harsh->set_password(newPass);
                 goto success;
