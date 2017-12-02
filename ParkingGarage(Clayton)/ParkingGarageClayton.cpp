@@ -177,6 +177,7 @@ int main(int argc, char * argv[]) {
 	string makeInput, modelInput, colorInput, lpInput, lpTemp; //austin
 	double fee; //austin
 	int quit;
+	double vipCount = 0.0, regularCount = 0.0, totalProjected = 0.0, profitCount = 0.0;
 
 	//declaring number of floors in the parking garage
 	Car ** carsList = new Car*[NUM_FLOORS];
@@ -414,6 +415,7 @@ int main(int argc, char * argv[]) {
                         carsList[i][j].set_moneyOwed(car.get_moneyOwed());
 						cout << "You have been assigned a VIP space on floor " << carsList[i][j].get_floorNum()
                         << ", space " << carsList[i][j].get_spaceNum() << ". Have a great day sir/madame!" << endl;
+                         vipCount += carsList[i][j].get_moneyOwed();
                         goto successfulPark;
 					}
 				}
@@ -504,6 +506,8 @@ int main(int argc, char * argv[]) {
 
                     //gets moneyOwed from car if it is parked there and asks the user for payment
                     cout << "\nYour total comes out to $" << carsList[floorTemp - 1][spaceTemp - 1].get_moneyOwed() << "." << endl;
+
+                    profitCount += carsList[floorTemp-1][spaceTemp-1].get_moneyOwed();
 
                     //resets the space as empty so another car can be parked there
                     carsList[floorTemp - 1][spaceTemp - 1].set_isOccupied(false);
@@ -757,10 +761,15 @@ int main(int argc, char * argv[]) {
         cout << "2. Print Space Info" << endl;
 
         //Prints total of all money paid today
-        cout << "3. Print Today's Profit" << endl;
+        cout << "3. Print Current Profit" << endl;
+
+        //prints projected profit
+        cout << "4. Projected Profit" << endl;
 
         //gives user the choice to change password
-        cout<< "4. Change Password" << endl;
+        cout << "5. Change Password" << endl;
+
+
 
 
         cout << "Choice: ";
@@ -848,12 +857,27 @@ int main(int argc, char * argv[]) {
             break;
         }
 
+        //print today's profit
     case 3:
         {
-
+            cout << "The total profit made today: $";
+            cin >> profitCount;
+            break;
         }
 
+         //prints projected money
     case 4:
+        {
+            totalProjected = vipCount + regularCount;
+
+            cout << "The total projected profit for today is : $";
+            cin >> totalProjected;
+
+            break;
+        }
+
+        //change password
+    case 5:
         {
             string currentPass = "";
             string currentUser = "";
