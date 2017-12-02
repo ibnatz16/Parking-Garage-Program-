@@ -408,6 +408,7 @@ int main(int argc, char * argv[]) {
 							carsList[i][j].set_floorNum(i + 1);
 							carsList[i][j].set_spaceNum(j + 1);
 							carsList[i][j].set_isOccupied(true);
+							carsList[i][j].set_isVIP(true);
 							carsList[i][j].set_make(makeInput);
 							carsList[i][j].set_model(modelInput);
 							carsList[i][j].set_color(colorInput);
@@ -469,6 +470,7 @@ int main(int argc, char * argv[]) {
 		case 2:
 		{
 			string temp = "";
+			string timePeriod = "";
 
 			//checkout and pay
 
@@ -500,21 +502,21 @@ int main(int argc, char * argv[]) {
 				//checks if entered lpNum matches the one provided during car registration
 				if (s.compare(temp)) {
 
-					string timePeriod;
+					
 					if (carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 1) {
 						timePeriod = "less than 1 hour.";
 					}
 					else if (carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 2) {
-						timePeriod = "1 - 3 hours.";
+						timePeriod = "1 - 3 hours.    ";
 					}
 					else if (carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 3) {
-						timePeriod = "3 - 6 hours";
+						timePeriod = "3 - 6 hours.    ";
 					}
 					else if (carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 4) {
-						timePeriod = "6 - 12 hours.";
+						timePeriod = "6 - 12 hours.    ";
 					}
 					else if (carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 5) {
-						timePeriod = "12 - 24 hours.";
+						timePeriod = "12 - 24 hours.    ";
 					}
 
 					cout << "You have parked your " << carsList[floorTemp - 1][spaceTemp - 1].get_color() << " "
@@ -522,9 +524,11 @@ int main(int argc, char * argv[]) {
 						<< " " << carsList[floorTemp - 1][spaceTemp - 1].get_model() << " for "
 						<< timePeriod << endl;
 					
+					string money;
 					//gets moneyOwed from car if it is parked there and asks the user for payment
-					cout << "\nYour total comes out to $" << carsList[floorTemp - 1][spaceTemp - 1].get_moneyOwed() << "0." << endl;
-				
+					(carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 1 ? money = ".00." : money = "0.");
+					cout << "\nYour total comes out to $" << carsList[floorTemp - 1][spaceTemp - 1].get_moneyOwed() << money << endl;
+					
 
 					//resets the space as empty so another car can be parked there
 					carsList[floorTemp - 1][spaceTemp - 1].set_isOccupied(false);
@@ -591,7 +595,11 @@ int main(int argc, char * argv[]) {
 						incorrectPayment = false;
 					}
 					else {
-						cout << "Your change is $" << change << ". Would you like a receipt?\n1. Yes\n2. No\n";
+
+						string money;
+						(carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 1 ? money = ".00." : money = "0.");
+					
+						cout << "Your change is $" << change << money << " Would you like a receipt?\n1. Yes\n2. No\n";
 						cin >> receiptChoice;
 						while (cin.fail()) {
 							cin.clear(); //Resets the flags so you can input again
@@ -600,9 +608,32 @@ int main(int argc, char * argv[]) {
 							cin >> receiptChoice;
 						}
 						if (receiptChoice == 1) {
-							//printReceipt()
+
+							string money;
+							//gets moneyOwed from car if it is parked there and asks the user for payment
+							(carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 1 ? money = ".00." : money = "0.");
+							
+							cout << "  ______________________________________________________\n";
+							cout << " |  Thank for for parking at the Zanach Parking Garage\t|\n" << 
+										" |\t\t\t\t\t\t\t|\n";
+							if (carsList[floorTemp - 1][spaceTemp - 1].get_isVIP() == true) {
+								cout << " |  You were a VIP today!\t\t\t\t|\n |  You're more important than other people.\t\t|" << 
+										"\n |\t\t\t\t\t\t\t|\n";
+							}
+							cout << " |  You parked for " << timePeriod << "\t\t\t|\n" << 
+										" |\t\t\t\t\t\t\t|\n";
+							cout << " |  Total: $" << carsList[floorTemp - 1][spaceTemp - 1].get_moneyOwed() << money << "\t\t\t\t\t|\n";
+							cout << " |  You paid $" << payment << ".00 in cash\t\t\t\t|\n";
+							cout << " |  Change: $" << change << "0.\t\t\t\t\t|\n" << 
+										" |\t\t\t\t\t\t\t|\n";
+							cout << " |  ---\t\t\t\t\t\t\t|\n" << 
+										" |\t\t\t\t\t\t\t|\n";
+							cout << " |  Questions, comments, or concerns? \t\t\t|\n";
+							cout << " |  Contact Us: 1-(800)-1-ZANACH\t\t\t|\n";
+							cout << "  ______________________________________________________\n";
+
 						}
-						cout << "Please take your change and have a great day!" << endl;
+						cout << "\nPlease take your change and have a great day!" << endl;
 						incorrectPayment = false;
 					}
 				} while (incorrectPayment == true);
@@ -628,6 +659,29 @@ int main(int argc, char * argv[]) {
 				}
 				if (receiptChoice == 1) {
 					//printReceipt()
+					string money;
+					//gets moneyOwed from car if it is parked there and asks the user for payment
+					(carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 1 ? money = ".00." : money = "0.");
+
+					cout << "  ______________________________________________________\n";
+					cout << " |  Thank for for parking at the Zanach Parking Garage\t|\n" <<
+						" |\t\t\t\t\t\t\t|\n";
+					if (carsList[floorTemp - 1][spaceTemp - 1].get_isVIP() == true) {
+						cout << " |  You were a VIP today!\t\t\t\t|\n |  You're more important than other people.\t\t|" <<
+							"\n |\t\t\t\t\t\t\t|\n";
+					}
+					cout << " |  You parked for " << timePeriod << "\t\t\t|\n" <<
+						" |\t\t\t\t\t\t\t|\n";
+					cout << " |  Total: $" << carsList[floorTemp - 1][spaceTemp - 1].get_moneyOwed() << money << "\t\t\t\t\t|\n";
+					cout << " |  You paid with card **** **** **** 3503\t\t|\n" << 
+							" |\t\t\t\t\t\t\t|\n";
+					cout << " |  ---\t\t\t\t\t\t\t|\n" <<
+						" |\t\t\t\t\t\t\t|\n";
+					cout << " |  Questions, comments, or concerns? \t\t\t|\n";
+					cout << " |  Contact Us: 1-(800)-1-ZANACH\t\t\t|\n";
+					cout << "  ______________________________________________________\n";
+
+
 				}
 				cout << "Have a great day!" << endl;
 			}
