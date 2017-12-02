@@ -749,14 +749,6 @@ int main(int argc, char * argv[]) {
 
         //prints a list of the current license plates in the garage
         cout << "1. Print All License Plates" << endl;
-            
-            for (int i = 0; i < NUM_FLOORS ; i++) {
-                cout << carsList[floorTemp - 1][spaceTemp - 1].get_lpNum() << endl;
-                
-                for (int j = 0; i < SNUM_SPACES)) {
-                    cout << carsList[spaceTemp-1].get_lpNum() << endl;
-                }
-            }
 
         //prints out all details associated with a particular space
         //isOccupied == true, then prints all details
@@ -788,6 +780,13 @@ int main(int argc, char * argv[]) {
 		//Printing license plates
         case 1:
             {
+                for (int i = 0; i < NUM_FLOORS ; i++) {}
+                    for (int j = 0; i < NUM_SPACES)) {
+                        if(carsList[i][j].get_lpNum().empty() == false){
+                           cout << "Current License Plates in the Garage:\n " << carsList[i][j].get_lpNum() << "\n" << endl;
+                        }
+                }
+            }
 
                 break;
             }
@@ -820,7 +819,7 @@ int main(int argc, char * argv[]) {
                 }
 
             //checks if a car is parked in the given space
-            cout << "\nSpace " << temp1 << "-" << temp2 << " Information:" endl;
+            cout << "\nSpace " << temp1 << "-" << temp2 << " Information:" << endl;
 
             if(carsList[temp1 - 1][temp - 1].get_isOccupied() == true){
 
@@ -858,6 +857,8 @@ int main(int argc, char * argv[]) {
 
     cout << "Enter 1 to continue to Manager Menu, 0 to Exit:";
     cin >> quitManager;
+    }
+
     }
 
 
