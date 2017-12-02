@@ -826,6 +826,13 @@ int main(int argc, char * argv[]) {
 					//Printing license plates
 				case 1:
 				{
+					for (int i = 0; i < NUM_FLOORS; i++) {
+						for (int j = 0; i < NUM_SPACES; j++) {
+							if (carsList[i][j].get_lpNum().empty() == false) {
+								cout << "Current License Plates in the Garage:\n " << carsList[i][j].get_lpNum() << "\n" << endl;
+							}
+						}
+					}
 
 					break;
 				}
