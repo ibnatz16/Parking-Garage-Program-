@@ -780,16 +780,17 @@ int main(int argc, char * argv[]) {
 		//Printing license plates
         case 1:
             {
-                for (int i = 0; i < NUM_FLOORS ; i++) {}
+                for (int i = 0; i < NUM_FLOORS ; i++) {
                     for (int j = 0; i < NUM_SPACES)) {
                         if(carsList[i][j].get_lpNum().empty() == false){
                            cout << "Current License Plates in the Garage:\n " << carsList[i][j].get_lpNum() << "\n" << endl;
                         }
+                    }
                 }
-            }
 
                 break;
             }
+
 
         //Prints space info
         case 2:
@@ -849,6 +850,119 @@ int main(int argc, char * argv[]) {
     case 3:
         {
 
+        }
+
+    case 4:
+        {
+            string currentPass = "";
+            string currentUser = "";
+            string newPass = "";
+
+            passwordMenu:
+            cout << "Username: " << endl;
+            cin >> currentUser;
+
+            takeTwo:
+            cout << "Current Password: ";
+            cin >> currentPass;
+
+
+        //checks who wants to change their password
+        //must enter current password first, then can change it
+        if(currentUser.compare(clayton->get_username()) == 0 ){
+            if(currentPass.compare(clayton->get_password()) == 0){
+                cout << "New Password: " << endl;
+                cin << newPass;
+
+                clayton->set_password(newPass);
+                goto success;
+
+            }else{
+            cout << "\nIncorrect Password, please try again.\n" << endl;
+            goto takeTwo;
+            }
+        }
+
+
+        if(currentUser.compare(zahin->get_username()) == 0 ){
+            if(currentPass.compare(zahin->get_password()) == 0){
+                cout << "New Password: " << endl;
+                cin << newPass;
+
+                zahin->set_password(newPass);
+                goto success;
+
+            }else{
+            cout << "\nIncorrect Password, please try again.\n" << endl;
+            goto takeTwo;
+            }
+        }
+
+        if(currentUser.compare(neha->get_username()) == 0 ){
+            if(currentPass.compare(neha->get_password()) == 0){
+                cout << "New Password: " << endl;
+                cin << newPass;
+
+                neha->set_password(newPass);
+                goto success;
+
+            }else{
+            cout << "\nIncorrect Password, please try again.\n" << endl;
+            goto takeTwo;
+            }
+        }
+
+        if(currentUser.compare(andrew->get_username()) == 0 ){
+            if(currentPass.compare(andrew->get_password()) == 0){
+                cout << "New Password: " << endl;
+                cin << newPass;
+
+                andrew->set_password(newPass);
+                goto success;
+
+            }else{
+            cout << "\nIncorrect Password, please try again.\n" << endl;
+            goto takeTwo;
+            }
+        }
+
+        if(currentUser.compare(topher->get_username()) == 0 ){
+            if(currentPass.compare(topher->get_password()) == 0){
+                cout << "New Password: " << endl;
+                cin << newPass;
+
+                topher->set_password(newPass);
+                goto success;
+
+            }else{
+            cout << "\nIncorrect Password, please try again.\n" << endl;
+            goto takeTwo;
+            }
+        }
+
+        if(currentUser.compare(harsh->get_username()) == 0 ){
+            if(currentPass.compare(harsh->get_password()) == 0){
+                cout << "New Password: " << endl;
+                cin << newPass;
+
+                harsh->set_password(newPass);
+                goto success;
+
+            }else{
+            cout << "\nIncorrect Password, please try again.\n" << endl;
+            goto takeTwo;
+            }
+        }
+
+
+        cout << "\nUsername not recognized, try again.\n" << endl;
+        goto passwordMenu;
+
+
+            success:
+
+
+            break;
         }
 
 
