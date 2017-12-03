@@ -105,16 +105,6 @@ void Car::set_isVIP(bool v)
 	isVIP = v;
 }
 
-/*int Car::findCar(int spaces, int floors, string lpNum) {
-int spot = 0;
-for (int i = 0; i < floors; i++) {
-for (int j = 0; j < spaces; j++) {
-
-}
-}
-return floorNum, spaceNum;
-}*/
-
 //Getters
 string Car::get_color()
 {
@@ -211,11 +201,6 @@ int main(int argc, char * argv[]) {
 			cin >> mainMenuChoice;
 		}
 
-		if (mainMenuChoice < 1 || mainMenuChoice > 4) {
-			cout << "That wasn't an option.\n";
-			goto MainMenuQuestion;
-		}
-
 		switch (mainMenuChoice) {
 
 			//Parking a new car
@@ -264,30 +249,28 @@ int main(int argc, char * argv[]) {
 				cin >> VIPchoice;
 			}
 
-			if (VIPchoice != 1 && VIPchoice != 2 && VIPchoice != 3) {
-				cout << "That wasn't an option.\n";
-				goto VIPquestion;
-			}
 			switch (VIPchoice) {
 				//user chooses regular rates
-			case 1:
-				//isVIP is initialized to be false so nothing needs to be done
-				break;
-			case 2:
-				//isVIP is set to true
-				car.set_isVIP(true);
-				break;
-			case 3:
-				cout << "goodbye, thanks for nothing";
-				return 0;
-				break;
-			default:
-				cout << "Goodbye";
-				break;
+				case 1:
+					//isVIP is initialized to be false so nothing needs to be done
+					break;
+				case 2:
+					//isVIP is set to true
+					car.set_isVIP(true);
+					break;
+				case 3:
+					cout << "Sorry if our prices are too high. Please consider reemployment!\n";
+					goto MainMenuQuestion;
+					break;
+				default:
+					cout << "That wasn't an option.\n";
+					goto VIPquestion;
+					break;
 			}//end of VIP switch statement
 
 			 //asks which time period they will be paying for
 			cout << "How long would you like to stay?" << endl;
+			cout << "\--------------------" << endl;
 
 		TimeQuestion:
 			cout << "1. <1 hour" << endl;
@@ -305,35 +288,31 @@ int main(int argc, char * argv[]) {
 				cin >> timeChoice;
 			}
 
-			if (timeChoice < 1 || timeChoice > 5) {
-				cout << "That wasn't an option.\n";
-				goto TimeQuestion;
-			}
-
 			switch (timeChoice) {
-			case 1:
-				//user is parking <1 hr
-				car.set_timePeriod(1);
-				break;
-			case 2:
-				//1-3 hrs
-				car.set_timePeriod(2);
-				break;
-			case 3:
-				//3-6 hrs
-				car.set_timePeriod(3);
-				break;
-			case 4:
-				//6-12 hrs
-				car.set_timePeriod(4);
-				break;
-			case 5:
-				//12-24 hrs
-				car.set_timePeriod(5);
-				break;
-			default:
-				cout << "That wasn't an option. Goodbye";
-				break;
+				case 1:
+					//user is parking <1 hr
+					car.set_timePeriod(1);
+					break;
+				case 2:
+					//1-3 hrs
+					car.set_timePeriod(2);
+					break;
+				case 3:
+					//3-6 hrs
+					car.set_timePeriod(3);
+					break;
+				case 4:
+					//6-12 hrs
+					car.set_timePeriod(4);
+					break;
+				case 5:
+					//12-24 hrs
+					car.set_timePeriod(5);
+					break;
+				default:
+					cout << "That wasn't an option.\n";
+					goto TimeQuestion;
+					break;
 			}//end of time period switch statement
 
 			 //determines the fee that will be paid upon exit
@@ -387,24 +366,79 @@ int main(int argc, char * argv[]) {
 			//asks for make, model, color, and license plate of vehicle
 			cout << "Please enter your vehicle's make:" << endl;
 			cin >> makeInput;
-			//car.set_make(makeInput);
+			cout << endl;
 
 			cout << "Please enter your vehicle's model:" << endl;
 			cin >> modelInput;
-			//car.set_model(modelInput);
+			cout << endl;
 
 			cout << "Please enter your vehicle's color:" << endl;
 			cin >> colorInput;
-			//car.set_color(colorInput);
+			cout << endl;
 
+		EnterLicensePlate:
 			cout << "Please enter a 6 character license plate number:" << endl;
 			cin >> lpInput;
+			cout << endl;
 
 			//checks that the license plate is exactly 6 characters long
 			while (lpInput.length() != 6) {
 				cout << "Please enter a 6 character license plate number:";
 				cin >> lpInput;
 			}
+
+			for (int i = 0; i < NUM_FLOORS; i++) {
+				for (int j = 0; j < NUM_SPACES; j++) {
+					if (lpInput.compare(carsList[i][j].get_lpNum()) == 0) {
+						int lpMistake = 0;
+						cout << "\nThis car is already parked in the garage, and is located at:" <<
+							"\nFloor " << carsList[i][j].get_floorNum() <<
+							"\nSpace " << carsList[i][j].get_spaceNum();
+
+					lpMistakeQuestion:
+						cout << "\nWould you \n" <<
+							"1. Like to enter a different license plate number\n"
+							"2. Like to retrieve your already parked car\n" <<
+							"3. Like to find your lost car\n" <<
+							"4. Like to leave the garage (restart the program)";
+
+						cin >> lpMistake;
+						while (cin.fail()) {
+							cin.clear(); //Resets the flags so you can input again
+							cin.ignore(100, '\n'); //Empty the buffer
+							cout << "Please enter an integer!\n";
+							cin >> lpMistake;
+						}
+
+
+						switch (lpMistake) {
+							case 1: {
+								goto EnterLicensePlate;
+								break;
+							}
+							case 2: {
+								goto RetrieveCar;
+								break;
+							}
+							case 3: {
+								goto FindLostCar;
+								break;
+							}
+							case 4: {
+								goto MainMenuQuestion;
+								break;
+							}
+							default: {
+								cout << "That wasn't an option, please choose from the available options.\n\n";
+								goto lpMistakeQuestion;
+								break;
+							}
+
+						}
+					}
+				}
+			}
+
 			//checks that each character in the string is either a number or a letter
 			for (int i = 0; i < 6; i++) {
 				if (isalnum(lpInput.at(i)) == false) {
@@ -486,6 +520,7 @@ int main(int argc, char * argv[]) {
 		}
 		case 2:
 		{
+			RetrieveCar:
 			string temp = "";
 			string timePeriod = "";
 
@@ -517,8 +552,7 @@ int main(int argc, char * argv[]) {
 				string s = carsList[floorTemp - 1][spaceTemp - 1].get_lpNum();
 
 				//checks if entered lpNum matches the one provided during car registration
-				if (s.compare(temp)) {
-
+				if (s.compare(temp) == 0) {
 
 					if (carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 1) {
 						timePeriod = "less than 1 hour.";
@@ -617,7 +651,30 @@ int main(int argc, char * argv[]) {
 							goto ReceiptCashQuestion1;
 						}
 						else if (receiptChoice == 1) {
-							//printReceipt()
+							string money;
+							//gets moneyOwed from car if it is parked there and asks the user for payment
+							(carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 1 ? money = ".00." : money = "0.");
+
+							cout << "  ______________________________________________________\n";
+							cout << " |  Thank for for parking at the Zanach Parking Garage\t|\n" <<
+								" |\t\t\t\t\t\t\t|\n";
+							if (carsList[floorTemp - 1][spaceTemp - 1].get_isVIP() == true) {
+								cout << " |  You were a VIP today!\t\t\t\t|\n |  You're more important than other people.\t\t|" <<
+									"\n |\t\t\t\t\t\t\t|\n";
+							}
+							cout << " |  You parked for " << timePeriod << "\t\t\t|\n" <<
+								" |\t\t\t\t\t\t\t|\n";
+							cout << " |  Total: $" << carsList[floorTemp - 1][spaceTemp - 1].get_moneyOwed() << money << "\t\t\t\t\t|\n";
+							cout << " |  You paid $" << payment << ".00 in cash\t\t\t\t|\n";
+							cout << " |  Change: $" << change << "0.\t\t\t\t\t|\n" <<
+								" |\t\t\t\t\t\t\t|\n";
+							cout << " |  ---\t\t\t\t\t\t\t|\n" <<
+								" |\t\t\t\t\t\t\t|\n";
+							cout << " |  Questions, comments, or concerns? \t\t\t|\n";
+							cout << " |  Contact Us: 1-(800)-1-ZANACH\t\t\t|\n";
+							cout << "  ______________________________________________________\n";
+
+						
 						}
 						cout << "Thank you, and have a great day!";
 						incorrectPayment = false;
@@ -627,7 +684,7 @@ int main(int argc, char * argv[]) {
 						string money;
 						(carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 1 ? money = ".00." : money = "0.");
 
-						cout << "Your change is $" << change << ". ";
+						cout << "Your change is $" << change << money << ". ";
 					ReceiptCashQuestion2:
 						cout << "Would you like a receipt?\n1.Yes\n2.No\n";
 						cin >> receiptChoice;
@@ -698,7 +755,7 @@ int main(int argc, char * argv[]) {
 					goto ReceiptCardQuestion;
 				}
 				else if (receiptChoice == 1) {
-					//printReceipt()
+
 					string money;
 					//gets moneyOwed from car if it is parked there and asks the user for payment
 					(carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 1 ? money = ".00." : money = "0.");
@@ -731,6 +788,7 @@ int main(int argc, char * argv[]) {
 		}
 		case 3:
 		{
+			FindLostCar:
 			int floorNum = 1;
 			int spaceNum = 1;
 
@@ -871,7 +929,7 @@ int main(int argc, char * argv[]) {
 			while (quitManager == 1) {
 
 				cout << "MANAGER MENU:\n" << endl;
-
+				ManagerMenuQuestion:
 				//prints a list of the current license plates in the garage
 				cout << "1. Print All License Plates" << endl;
 
@@ -886,10 +944,11 @@ int main(int argc, char * argv[]) {
 				//prints projected profit
 				cout << "4. Projected Profit" << endl;
 
+				//ability to tow cars
+				cout << "5. Tow errant car";
+
 				//gives user the choice to change password
-				cout << "5. Change Password" << endl;
-
-
+				cout << "6. Change Password" << endl;
 
 
 				cout << "Choice: ";
@@ -908,216 +967,317 @@ int main(int argc, char * argv[]) {
 				switch (managerMenuChoice) {
 
 					//Printing license plates
-				case 1:
-				{
-					for (int i = 0; i < NUM_FLOORS; i++) {
-						for (int j = 0; i < NUM_SPACES; j++) {
-							if (carsList[i][j].get_lpNum().empty() == false) {
-								cout << "Current License Plates in the Garage:\n " << carsList[i][j].get_lpNum() << "\n" << endl;
+					case 1:
+					{
+						for (int i = 0; i < NUM_FLOORS; i++) {
+							for (int j = 0; i < NUM_SPACES; j++) {
+								if (carsList[i][j].get_lpNum().empty() == false) {
+									cout << "Current License Plates in the Garage:\n " << carsList[i][j].get_lpNum() << "\n" << endl;
+								}
 							}
 						}
+
+						break;
 					}
 
-					break;
-				}
 
+					//Prints space info
+					case 2:
+					{
+						//temp inputs for car location
+						int temp1 = 0;
+						int temp2 = 0;
 
-				//Prints space info
-				case 2:
-				{
-					//temp inputs for car location
-					int temp1 = 0;
-					int temp2 = 0;
-
-					cout << "Floor Number: " << endl;
-					cin >> temp1;
-
-					while (cin.fail()) {
-						cin.clear(); //Resets the flags so you can input again
-						cin.ignore(100, '\n'); //Empty the buffer
-						cout << "Please enter an integer!\n";
+						cout << "Floor Number: " << endl;
 						cin >> temp1;
-					}
 
-					cout << "Space Number:" << endl;
-					cin >> temp2;
+						while (cin.fail()) {
+							cin.clear(); //Resets the flags so you can input again
+							cin.ignore(100, '\n'); //Empty the buffer
+							cout << "Please enter an integer!\n";
+							cin >> temp1;
+						}
 
-					while (cin.fail()) {
-						cin.clear(); //Resets the flags so you can input again
-						cin.ignore(100, '\n'); //Empty the buffer
-						cout << "Please enter an integer!\n";
+						cout << "Space Number:" << endl;
 						cin >> temp2;
-					}
 
-					//checks if a car is parked in the given space
-					cout << "\nSpace " << temp1 << "-" << temp2 << " Information:" << endl;
+						while (cin.fail()) {
+							cin.clear(); //Resets the flags so you can input again
+							cin.ignore(100, '\n'); //Empty the buffer
+							cout << "Please enter an integer!\n";
+							cin >> temp2;
+						}
 
-					if (carsList[temp1 - 1][temp2 - 1].get_isOccupied() == true) {
+						//checks if a car is parked in the given space
+						cout << "\nSpace " << temp1 << "-" << temp2 << " Information:" << endl;
 
-						if (carsList[temp1 - 1][temp2 - 1].get_isVIP() == true) {
-							cout << "VIP: Y" << endl;
+						if (carsList[temp1 - 1][temp2 - 1].get_isOccupied() == true) {
+
+							if (carsList[temp1 - 1][temp2 - 1].get_isVIP() == true) {
+								cout << "VIP: Y" << endl;
+							}
+							else {
+								cout << "VIP: N" << endl;
+							}
+
+							cout << "License Plate: " << carsList[temp1 - 1][temp2 - 1].get_lpNum() << endl;
+							cout << "Color: " << carsList[temp1 - 1][temp2 - 1].get_color() << endl;
+							cout << "Make: " << carsList[temp1 - 1][temp2 - 1].get_make() << endl;
+							cout << "Model: " << carsList[temp1 - 1][temp2 - 1].get_model() << endl;
+							cout << "Fee: " << carsList[temp1 - 1][temp2 - 1].get_moneyOwed() << endl;
+
+
 						}
 						else {
-							cout << "VIP: N" << endl;
+							cout << "That space is empty." << endl;
 						}
 
-						cout << "License Plate: " << carsList[temp1 - 1][temp2 - 1].get_lpNum() << endl;
-						cout << "Color: " << carsList[temp1 - 1][temp2 - 1].get_color() << endl;
-						cout << "Make: " << carsList[temp1 - 1][temp2 - 1].get_make() << endl;
-						cout << "Model: " << carsList[temp1 - 1][temp2 - 1].get_model() << endl;
-						cout << "Fee: " << carsList[temp1 - 1][temp2 - 1].get_moneyOwed() << endl;
 
-
-					}
-					else {
-						cout << "That space is empty." << endl;
+						break;
 					}
 
+					//print today's profit
+					case 3:
+					{
+						cout << "The total profit made today: $";
+						cin >> profitCount;
+						break;
+					}
 
+					//prints projected money
+					case 4:
+					{
+						totalProjected = vipCount + regularCount;
+
+						cout << "The total projected profit for today is : $";
+						cin >> totalProjected;
+
+						break;
+					}
+
+					//tow car case
+					case 5:
+					{
+						//temp inputs for car location
+						int temp1 = 0;
+						int temp2 = 0;
+						int choice;
+					TowCarQuestion:
+						cout << "Which floor is the car that needs to be towed on?" << endl;
+						cin >> temp1;
+
+						while (cin.fail()) {
+							cin.clear(); //Resets the flags so you can input again
+							cin.ignore(100, '\n'); //Empty the buffer
+							cout << "Please enter an integer!\n";
+							cin >> temp1;
+						}
+
+						cout << "Which space Number?" << endl;
+						cin >> temp2;
+
+						while (cin.fail()) {
+							cin.clear(); //Resets the flags so you can input again
+							cin.ignore(100, '\n'); //Empty the buffer
+							cout << "Please enter an integer!\n";
+							cin >> temp2;
+						}
+
+						//checks if a car is parked in the given space
+						cout << "Car information:" << endl;
+
+						if (carsList[temp1 - 1][temp2 - 1].get_isOccupied() == true) {
+
+							if (carsList[temp1 - 1][temp2 - 1].get_isVIP() == true) {
+								cout << "\tVIP: Y" << endl;
+							}
+							else {
+								cout << "\tVIP: N" << endl;
+							}
+
+							cout << "\tLicense Plate: " << carsList[temp1 - 1][temp2 - 1].get_lpNum() << endl;
+							cout << "\tColor: " << carsList[temp1 - 1][temp2 - 1].get_color() << endl;
+							cout << "\tMake: " << carsList[temp1 - 1][temp2 - 1].get_make() << endl;
+							cout << "\tModel: " << carsList[temp1 - 1][temp2 - 1].get_model() << endl;
+							cout << "\tFee: " << carsList[temp1 - 1][temp2 - 1].get_moneyOwed() << endl;
+							CorrectCarQuestion:
+							cout << "Is this the correct car?\n1. Yes\n2. No" << endl;
+							cin >> choice;
+
+							while (cin.fail()) {
+								cin.clear(); //Resets the flags so you can input again
+								cin.ignore(100, '\n'); //Empty the buffer
+								cout << "Please enter an integer!\n";
+								cin >> temp2;
+							}
+							if (choice < 1 || choice > 2) {
+								cout << "That wasn't an option.\n";
+								goto CorrectCarQuestion;
+							}
+
+							switch (choice)
+							{
+								case 1:
+								{
+									cout << "The " << carsList[temp1 - 1][temp2 - 1].get_color() << " " << carsList[temp1 - 1][temp2 - 1].get_make()
+										<< " " << carsList[temp1 - 1][temp2 - 1].get_model() << " will be towed. Owner will be notified and a fee will be added to their bill. " << endl;
+								}
+								case 2:
+								{
+									TowReturnQuestion:
+									cout << "Would you like to return to the tow car menu?" << endl;
+									cin >> choice;
+
+									while (cin.fail()) {
+										cin.clear(); //Resets the flags so you can input again
+										cin.ignore(100, '\n'); //Empty the buffer
+										cout << "Please enter an integer!\n";
+										cin >> temp2;
+									}
+									if (choice < 1 || choice > 2) {
+										cout << "That wasn't an option. Please choose from one of the available options.\n";
+										goto TowReturnQuestion;
+									}
+									else if (choice = 1)
+									break;
+								}
+							}
+
+						}
+						else {
+							cout << "That space is empty." << endl;
+							goto TowCarQuestion;
+						}
+
+						break;
+					}
+
+
+
+					//change password
+					case 6:
+					{
+						string currentPass = "";
+						string currentUser = "";
+						string newPass = "";
+
+					passwordMenu:
+						cout << "Username: " << endl;
+						cin >> currentUser;
+
+					takeTwo:
+						cout << "Current Password: ";
+						cin >> currentPass;
+
+
+						//checks who wants to change their password
+						//must enter current password first, then can change it
+						if (currentUser.compare(clayton->get_username()) == 0) {
+							if (currentPass.compare(clayton->get_password()) == 0) {
+								cout << "New Password: " << endl;
+								cin >> newPass;
+
+								clayton->set_password(newPass);
+								goto success;
+
+							}
+							else {
+								cout << "\nIncorrect Password, please try again.\n" << endl;
+								goto takeTwo;
+							}
+						}
+
+
+						if (currentUser.compare(zahin->get_username()) == 0) {
+							if (currentPass.compare(zahin->get_password()) == 0) {
+								cout << "New Password: " << endl;
+								cin >> newPass;
+
+								zahin->set_password(newPass);
+								goto success;
+
+							}
+							else {
+								cout << "\nIncorrect Password, please try again.\n" << endl;
+								goto takeTwo;
+							}
+						}
+
+						if (currentUser.compare(neha->get_username()) == 0) {
+							if (currentPass.compare(neha->get_password()) == 0) {
+								cout << "New Password: " << endl;
+								cin >> newPass;
+
+								neha->set_password(newPass);
+								goto success;
+
+							}
+							else {
+								cout << "\nIncorrect Password, please try again.\n" << endl;
+								goto takeTwo;
+							}
+						}
+
+						if (currentUser.compare(andrew->get_username()) == 0) {
+							if (currentPass.compare(andrew->get_password()) == 0) {
+								cout << "New Password: " << endl;
+								cin >> newPass;
+
+								andrew->set_password(newPass);
+								goto success;
+
+							}
+							else {
+								cout << "\nIncorrect Password, please try again.\n" << endl;
+								goto takeTwo;
+							}
+						}
+
+						if (currentUser.compare(topher->get_username()) == 0) {
+							if (currentPass.compare(topher->get_password()) == 0) {
+								cout << "New Password: " << endl;
+								cin >> newPass;
+
+								topher->set_password(newPass);
+								goto success;
+
+							}
+							else {
+								cout << "\nIncorrect Password, please try again.\n" << endl;
+								goto takeTwo;
+							}
+						}
+
+						if (currentUser.compare(harsh->get_username()) == 0) {
+							if (currentPass.compare(harsh->get_password()) == 0) {
+								cout << "New Password: " << endl;
+								cin >> newPass;
+
+								harsh->set_password(newPass);
+								goto success;
+
+							}
+							else {
+								cout << "\nIncorrect Password, please try again.\n" << endl;
+								goto takeTwo;
+							}
+						}
+
+
+						cout << "\nUsername not recognized, try again.\n" << endl;
+						goto passwordMenu;
+
+
+					success:
+
+
+						break;
+					}
+
+					default:
+						cout << "That wasn't an option.\n";
+						goto ManagerMenuQuestion;
 					break;
-				}
-
-				//print today's profit
-				case 3:
-				{
-					cout << "The total profit made today: $";
-					cin >> profitCount;
-					break;
-				}
-
-				//prints projected money
-				case 4:
-				{
-					totalProjected = vipCount + regularCount;
-
-					cout << "The total projected profit for today is : $";
-					cin >> totalProjected;
-
-					break;
-				}
-
-				//change password
-				case 5:
-				{
-					string currentPass = "";
-					string currentUser = "";
-					string newPass = "";
-
-				passwordMenu:
-					cout << "Username: " << endl;
-					cin >> currentUser;
-
-				takeTwo:
-					cout << "Current Password: ";
-					cin >> currentPass;
-
-
-					//checks who wants to change their password
-					//must enter current password first, then can change it
-					if (currentUser.compare(clayton->get_username()) == 0) {
-						if (currentPass.compare(clayton->get_password()) == 0) {
-							cout << "New Password: " << endl;
-							cin >> newPass;
-
-							clayton->set_password(newPass);
-							goto success;
-
-						}
-						else {
-							cout << "\nIncorrect Password, please try again.\n" << endl;
-							goto takeTwo;
-						}
-					}
-
-
-					if (currentUser.compare(zahin->get_username()) == 0) {
-						if (currentPass.compare(zahin->get_password()) == 0) {
-							cout << "New Password: " << endl;
-							cin >> newPass;
-
-							zahin->set_password(newPass);
-							goto success;
-
-						}
-						else {
-							cout << "\nIncorrect Password, please try again.\n" << endl;
-							goto takeTwo;
-						}
-					}
-
-					if (currentUser.compare(neha->get_username()) == 0) {
-						if (currentPass.compare(neha->get_password()) == 0) {
-							cout << "New Password: " << endl;
-							cin >> newPass;
-
-							neha->set_password(newPass);
-							goto success;
-
-						}
-						else {
-							cout << "\nIncorrect Password, please try again.\n" << endl;
-							goto takeTwo;
-						}
-					}
-
-					if (currentUser.compare(andrew->get_username()) == 0) {
-						if (currentPass.compare(andrew->get_password()) == 0) {
-							cout << "New Password: " << endl;
-							cin >> newPass;
-
-							andrew->set_password(newPass);
-							goto success;
-
-						}
-						else {
-							cout << "\nIncorrect Password, please try again.\n" << endl;
-							goto takeTwo;
-						}
-					}
-
-					if (currentUser.compare(topher->get_username()) == 0) {
-						if (currentPass.compare(topher->get_password()) == 0) {
-							cout << "New Password: " << endl;
-							cin >> newPass;
-
-							topher->set_password(newPass);
-							goto success;
-
-						}
-						else {
-							cout << "\nIncorrect Password, please try again.\n" << endl;
-							goto takeTwo;
-						}
-					}
-
-					if (currentUser.compare(harsh->get_username()) == 0) {
-						if (currentPass.compare(harsh->get_password()) == 0) {
-							cout << "New Password: " << endl;
-							cin >> newPass;
-
-							harsh->set_password(newPass);
-							goto success;
-
-						}
-						else {
-							cout << "\nIncorrect Password, please try again.\n" << endl;
-							goto takeTwo;
-						}
-					}
-
-
-					cout << "\nUsername not recognized, try again.\n" << endl;
-					goto passwordMenu;
-
-
-				success:
-
-
-					break;
-				}
-
-
-				break;
 				}
 
 				cout << "Enter 1 to continue to Manager Menu, 0 to Exit:";
@@ -1127,7 +1287,8 @@ int main(int argc, char * argv[]) {
 		}
 
 		default:
-			cout << "That wasn't an option. Goodbye";
+			cout << "That wasn't an option.\n";
+			goto MainMenuQuestion;
 			break;
 
 		}//end of big switch statement
