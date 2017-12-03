@@ -6,7 +6,7 @@
 //#include <unistd.h>
 #include <conio.h>
 #include <windows.h>
-#include "ParkingGarage.h"
+#include "ParkingGarageCar.h"
 #include "ParkingGarageManager.h"
 
 using namespace std;
@@ -531,14 +531,15 @@ int main(int argc, char * argv[]) {
 		}
 		case 2:
 		{
-			RetrieveCar:
+		RetrieveCar:
+		CheckoutProcess:
 			string temp = "";
 			string timePeriod = "";
 
 			//checkout and pay
 
 			cout << "Thank you for parking with Zanach!" << endl;
-		checkoutProcess:
+		
 			cout << "Please enter your floor number:" << endl;
 			cin >> floorTemp;
 			while (cin.fail()) {
@@ -582,17 +583,11 @@ int main(int argc, char * argv[]) {
 						timePeriod = "12 - 24 hours.    ";
 					}
 
-					if (carsList[floorTemp - 1][spaceTemp - 1].get_isTowed() == true) {
-						cout << "We are very sorry, your " << carsList[floorTemp - 1][spaceTemp - 1].get_color() << " "
-							<< carsList[floorTemp - 1][spaceTemp - 1].get_make() << " " << carsList[floorTemp - 1][spaceTemp - 1].get_model()
-							<< " has been towed. A $200 charge has been added to your bill. You can contact us at the number on the receipt for steps on retrieving your car." << endl;
-					}
-					else {
-						cout << "You have parked your " << carsList[floorTemp - 1][spaceTemp - 1].get_color() << " "
-							<< carsList[floorTemp - 1][spaceTemp - 1].get_make()
-							<< " " << carsList[floorTemp - 1][spaceTemp - 1].get_model() << " for "
-							<< timePeriod << endl;
-					}
+					cout << "You have parked your " << carsList[floorTemp - 1][spaceTemp - 1].get_color() << " "
+						<< carsList[floorTemp - 1][spaceTemp - 1].get_make()
+						<< " " << carsList[floorTemp - 1][spaceTemp - 1].get_model() << " for "
+						<< timePeriod << endl;
+					
 
 					string money;
 					//gets moneyOwed from car if it is parked there and asks the user for payment
@@ -607,15 +602,23 @@ int main(int argc, char * argv[]) {
 				else {
 					cout << "The license plate number you entered did not match the car space provided."
 						<< "\nTo ensure you aren't trying to park-n-dash or steal a car, please try again!" << endl;
-					goto checkoutProcess;
+					goto CheckoutProcess;
 				}
 
 
 
 			}
 			else {//error case - given space isn't occupied
-				cout << "Oops, looks like that space wasn't occupied, please try again!" << endl;
-				goto checkoutProcess;
+				if (carsList[floorTemp - 1][spaceTemp - 1].get_isTowed() == true) {
+					cout << "We are very sorry, your " << carsList[floorTemp - 1][spaceTemp - 1].get_color() << " "
+						<< carsList[floorTemp - 1][spaceTemp - 1].get_make() << " " << carsList[floorTemp - 1][spaceTemp - 1].get_model()
+						<< " has been towed. A $200 charge has been added to your bill. You can contact us at the number on the receipt for steps on retrieving your car." << endl;
+				}
+				else {
+					cout << "Oops, looks like that space wasn't occupied, please try again!" << endl;
+					goto CheckoutProcess;
+				}
+				
 			}
 
 			//Payment options (cash or credit)
@@ -837,7 +840,7 @@ int main(int argc, char * argv[]) {
 					<< "A $200 charge has been added to your bill. You can contact us at the number on the receipt for steps on retrieving your car."
 					<< "Please hold while you are sent to the checkout process." << endl;
 				Sleep(1000);
-				goto checkoutProcess;
+				goto CheckoutProcess;
 			}
 			else {
 				cout << "Your " << carsList[floorNum - 1][spaceNum - 1].get_color() << " " << carsList[floorNum - 1][spaceNum - 1].get_make() << " "
@@ -974,7 +977,7 @@ int main(int argc, char * argv[]) {
 				cout << "4. Projected Profit" << endl;
 
 				//ability to tow cars
-				cout << "5. Tow errant car";
+				cout << "5. Tow errant car" << endl;
 
 				//gives user the choice to change password
 				cout << "6. Change Password" << endl;
@@ -999,7 +1002,7 @@ int main(int argc, char * argv[]) {
 					case 1:
 					{
 						for (int i = 0; i < NUM_FLOORS; i++) {
-							for (int j = 0; i < NUM_SPACES; j++) {
+							for (int j = 0; j < NUM_SPACES; j++) {
 								if (carsList[i][j].get_lpNum().empty() == false) {
 									cout << "Current License Plates in the Garage:\n " << carsList[i][j].get_lpNum() << "\n" << endl;
 								}
@@ -1331,4 +1334,4 @@ int main(int argc, char * argv[]) {
 		cin >> quit;
 	} while (quit == 1);
 
-}
+};
