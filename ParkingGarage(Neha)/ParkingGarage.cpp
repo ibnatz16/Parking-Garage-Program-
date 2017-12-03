@@ -191,18 +191,21 @@ int main(int argc, char * argv[]) {
 
 
 	//greeting and prints main menu
-	cout << "Welcome to the Zanach Parking Garage!!" << endl;
+	cout << "Welcome to the Zanach Parking Garage!!\n" << endl;
 
 	do {
-		cout << "What would you like to do? (Enter the number of your choice): " << endl;
 
 	MainMenuQuestion:
-		cout << "\n1. Park my Car" << endl;
-		cout << "2. Retrieve my car (checkout and pay)" << endl;
-		cout << "3. Find my Car (I lost it!)" << endl;
-		cout << "4. Manager Login" << endl;
+	
+		cout << "\n\tWhat would you like to do? (Enter a number)" << endl;
+		cout << "\t---------------------------------------------" << endl;
+		cout << "\n\t1. Park my Car" << endl;
+		cout << "\t2. Retrieve my car (checkout and pay)" << endl;
+		cout << "\t3. Find my Car (I lost it!)" << endl;
+		cout << "\t4. Manager Login" << endl;
 
-		cout << "Choice: ";
+		cout << "\tChoice: ";
+
 		cin >> mainMenuChoice;
 		while (cin.fail()) {
 			cin.clear(); //Resets the flags so you can input again
@@ -226,38 +229,41 @@ int main(int argc, char * argv[]) {
 			//are initialized to null or zero
 			Car car;
 
-			cout << "--\nThanks for parking your garage in the Zanach Parking Garage."
+			cout << "\n--\nThanks for parking your garage in the Zanach Parking Garage."
 				<< "\nWe promise your car is in pretty good hands for the most part!" << endl;
 
 			//prints out regular rates
-			cout << "\nOur Regular Rates:" << endl;
-			cout << "\--------------------" << endl;
-			cout << "\t<1 hour: $10" << endl;
-			cout << "\t1 - 3 hour(s): $12.50" << endl;
-			cout << "\t3 - 6 hours: $17.50" << endl;
-			cout << "\t6 - 12 hours: $24.50" << endl;
-			cout << "\t12 - 24 hours: $34.50" << endl;
+			
+			cout << "\n\t Our Regular Rates" << endl;
+			cout << "\t------------------------" << endl;
+			cout << "\t|<1 hour: $10\t\t|" << endl;
+			cout << "\t|1 - 3 hour(s): $12.50\t|" << endl;
+			cout << "\t|3 - 6 hours: $17.50\t|" << endl;
+			cout << "\t|6 - 12 hours: $24.50\t|" << endl;
+			cout << "\t|12 - 24 hours: $34.50\t|" << endl;
+			cout << "\t------------------------" << endl;
 
 			//prints out VIP rates
-			cout << "\nOur VIP Rates:" << endl;
-			cout << "\--------------------" << endl;
-			cout << "\t<1 hour: $20" << endl;
-			cout << "\t1 - 3 hours: $22.50" << endl;
-			cout << "\t3 - 6 hours: $27.50" << endl;
-			cout << "\t6 - 12 hours: $34.50" << endl;
-			cout << "\t12 - 24 hours: $44.50" << endl << endl;
+			cout << "\n\tOur VIP Rates" << endl;
+			cout << "\t------------------------" << endl;
+			cout << "\t|<1 hour: $20\t\t|" << endl;
+			cout << "\t|1 - 3 hours: $22.50\t|" << endl;
+			cout << "\t|3 - 6 hours: $27.50\t|" << endl;
+			cout << "\t|6 - 12 hours: $34.50\t|" << endl;
+			cout << "\t|12 - 24 hours: $44.50\t|" << endl;
+			cout << "\t------------------------" << endl << endl;
 
 
 			//asks to pick regular or VIP rates
 			//if vip is full, say sorry, only regular spaces available
 		VIPquestion:
-			cout << "Would you like to park regular or VIP?" << endl;
-			cout << "\--------------------" << endl;
+			cout << "\tWould you like to park regular or VIP?" << endl;
+			cout << "\t-----------------------------------" << endl;
 		
-			cout << "1. Regular" << endl;
-			cout << "2. VIP (VIPs get first floor parking!)" << endl;
-			cout << "3. I don't want to park, this garage is too expensive" << endl;
-			cout << "Choice: ";
+			cout << "\t1. Regular" << endl;
+			cout << "\t2. VIP (VIPs get first floor parking!)" << endl;
+			cout << "\t3. I don't want to park, this garage is too expensive" << endl;
+			cout << "\tChoice: ";
 
 			cin >> VIPchoice;
 			while (cin.fail()) {
@@ -291,17 +297,17 @@ int main(int argc, char * argv[]) {
 			}//end of VIP switch statement
 
 			 //asks which time period they will be paying for
-			cout << "How long would you like to stay?" << endl;
-			cout << "\--------------------" << endl;
+			cout << "\n\tHow long would you like to stay?" << endl;
+			cout << "\t---------------------------------" << endl;
 			
 		TimeQuestion:
-			cout << "1. <1 hour" << endl;
-			cout << "2. 1 - 3 hours" << endl;
-			cout << "3. 3 - 6 hours" << endl;
-			cout << "4. 6 - 12 hours" << endl;
-			cout << "5. 12 - 24 hours" << endl;
+			cout << "\t1. <1 hour" << endl;
+			cout << "\t2. 1 - 3 hours" << endl;
+			cout << "\t3. 3 - 6 hours" << endl;
+			cout << "\t4. 6 - 12 hours" << endl;
+			cout << "\t5. 12 - 24 hours" << endl;
 
-			cout << "Choice: " << endl;
+			cout << "\tChoice: ";
 			cin >> timeChoice;
 			while (cin.fail()) {
 				cin.clear(); //Resets the flags so you can input again
@@ -309,6 +315,9 @@ int main(int argc, char * argv[]) {
 				cout << "Please enter an integer!\n";
 				cin >> timeChoice;
 			}
+
+
+
 
 			if (timeChoice < 1 || timeChoice > 5) {
 				cout << "That wasn't an option, please choose from the available options.\n\n";
@@ -390,25 +399,25 @@ int main(int argc, char * argv[]) {
 			}
 
 			//asks for make, model, color, and license plate of vehicle
-			cout << "Please enter your vehicle's make:" << endl;
+			cout << "\nPlease enter your vehicle's make: ";
 			cin >> makeInput;
-			//car.set_make(makeInput);
+			cout << endl;
 
-			cout << "Please enter your vehicle's model:" << endl;
+			cout << "Please enter your vehicle's model: ";
 			cin >> modelInput;
-			//car.set_model(modelInput);
+			cout << endl;
 
-			cout << "Please enter your vehicle's color:" << endl;
+			cout << "Please enter your vehicle's color: ";
 			cin >> colorInput;
-			//car.set_color(colorInput);
+			cout << endl;
 
 			EnterLicensePlate:
-			cout << "Please enter a 6 character license plate number:" << endl;
+			cout << "Please enter a 6 character license plate number: ";
 			cin >> lpInput;
 
 			//checks that the license plate is exactly 6 characters long
 			while (lpInput.length() != 6) {
-				cout << "Please enter a 6 character license plate number:";
+				cout << "Please enter a 6 character license plate number: ";
 				cin >> lpInput;
 			}
 
@@ -472,8 +481,8 @@ int main(int argc, char * argv[]) {
 			//checks that each character in the string is either a number or a letter
 			for (int i = 0; i < 6; i++) {
 				if (isalnum(lpInput.at(i)) == false) {
-					cout << "You entered an invalid character. "
-						<< "Please enter a license plate with only numbers and letters." << endl;
+					cout << "\nYou entered an invalid character. "
+						<< "\nPlease enter a license plate with only numbers and letters." << endl;
 					cin >> lpInput;
 				}
 			}
@@ -494,15 +503,15 @@ int main(int argc, char * argv[]) {
 							carsList[i][j].set_lpNum(lpInput);
 							carsList[i][j].set_timePeriod(car.get_timePeriod());
 							carsList[i][j].set_moneyOwed(car.get_moneyOwed());
-							cout << "You have been assigned a VIP space on floor " << carsList[i][j].get_floorNum()
-								<< ", space " << carsList[i][j].get_spaceNum() << ". Have a great day sir/madame!" << endl;
+							cout << "\nYou have been assigned a VIP space at:\n\tFloor " << carsList[i][j].get_floorNum()
+								<< "\n\tSpace " << carsList[i][j].get_spaceNum() << "\nHave a great day sir/madame!" << endl;
 							goto successfulPark;
 						}
 					}
 					//VIP floor is full, user picks between exiting or Regular Parking
 					if (i == 0) {
 						int temp = 0;
-						cout << "I'm sorry, VIP parking is full. You may either\n1. Use Regular Parking\n2. Exit" << endl;
+						cout << "\nI'm sorry, VIP parking is full. You may either\n1. Use Regular Parking\n2. Exit" << endl;
 						cin >> temp;
 
 						if (temp == 1) {
@@ -534,8 +543,8 @@ int main(int argc, char * argv[]) {
 							carsList[i][j].set_lpNum(lpInput);
 							carsList[i][j].set_timePeriod(car.get_timePeriod());
 							carsList[i][j].set_moneyOwed(car.get_moneyOwed());
-							cout << "You have been assigned a regular space on floor " << carsList[i][j].get_floorNum()
-								<< ", space " << carsList[i][j].get_spaceNum() << ". Have a good day." << endl;
+							cout << "\nYou have been assigned a regular space at:\n\tFloor " << carsList[i][j].get_floorNum()
+								<< "\n\tSpace " << carsList[i][j].get_spaceNum() << "\nHave a good day." << endl;
 							goto successfulPark;
 						}
 					}
@@ -556,10 +565,8 @@ int main(int argc, char * argv[]) {
 
 			//checkout and pay
 
-			cout << "Thank you for parking with Zanach!" << endl;
-
 		checkoutProcess:
-			cout << "Please enter your floor number:" << endl;
+			cout << "\nPlease enter your floor number: ";
 			cin >> floorTemp;
 			while (cin.fail()) {
 				cin.clear(); //Resets the flags so you can input again
@@ -567,7 +574,7 @@ int main(int argc, char * argv[]) {
 				cout << "Please enter an integer!\n";
 				cin >> floorTemp;
 			}
-			cout << "Please enter your space number:" << endl;
+			cout << "Please enter your space number: ";
 			cin >> spaceTemp;
 			while (cin.fail()) {
 				cin.clear(); //Resets the flags so you can input again
@@ -581,7 +588,6 @@ int main(int argc, char * argv[]) {
 				cout << "Please re-enter your license plate number to ensure you receive the correct bill:" << endl;
 				cin >> temp;
 				string s = carsList[floorTemp - 1][spaceTemp - 1].get_lpNum();
-				cout << s;
 
 				//checks if entered lpNum matches the one provided during car registration
 				if (s.compare(temp) == 0) {
@@ -618,7 +624,7 @@ int main(int argc, char * argv[]) {
 				}
 				//error case - space is occupied but provided license plate doesn't match
 				else {
-					cout << "The license plate number you entered did not match the car space provided."
+					cout << "\mThe license plate number you entered did not match the car space provided."
 						<< "\nTo ensure you aren't trying to park-n-dash or steal a car, please try again!" << endl;
 					goto checkoutProcess;
 				}
@@ -633,7 +639,12 @@ int main(int argc, char * argv[]) {
 
 			//Payment options (cash or credit)
 		PaymentQuestion:
-			cout << "Would you like to pay with\n1. Cash\n2. Card" << endl;
+
+			cout << "\n\tHow would you like to pay?" << endl;
+			cout << "\t-----------------------------" << endl;
+			cout << "\t1. Cash" << endl;
+			cout << "\t2. Card" << endl;
+			
 			cin >> paymentChoice;
 			while (cin.fail()) {
 				cin.clear(); //Resets the flags so you can input again
@@ -649,10 +660,10 @@ int main(int argc, char * argv[]) {
 			if (paymentChoice == 1) {
 				bool incorrectPayment = true;
 				cash = 0;
-				cout << "Please input your cash payment into the machine.";
+				cout << "Please input your cash payment into the machine. \n";
 
 				do {
-					cout << "How much did you put in?";
+					cout << "\tAmount entered: $";
 					cin >> payment;
 					while (cin.fail()) {
 						cin.clear(); //Resets the flags so you can input again
@@ -683,7 +694,27 @@ int main(int argc, char * argv[]) {
 							goto ReceiptCashQuestion1;
 						}
 						else if (receiptChoice == 1) {
-							//printReceipt()
+							string money;
+							//gets moneyOwed from car if it is parked there and asks the user for payment
+							(carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 1 ? money = ".00." : money = "0.");
+							cout << "  ______________________________________________________\n";
+							cout << " |  Thank for for parking at the Zanach Parking Garage\t|\n" <<
+								" |\t\t\t\t\t\t\t|\n";
+							if (carsList[floorTemp - 1][spaceTemp - 1].get_isVIP() == true) {
+								cout << " |  You were a VIP today!\t\t\t\t|\n |  You're more important than other people.\t\t|" <<
+									"\n |\t\t\t\t\t\t\t|\n";
+							}
+							cout << " |  You parked for " << timePeriod << "\t\t\t|\n" <<
+								" |\t\t\t\t\t\t\t|\n";
+							cout << " |  Total: $" << carsList[floorTemp - 1][spaceTemp - 1].get_moneyOwed() << money << "\t\t\t\t\t|\n";
+							cout << " |  You paid $" << payment << ".00 in cash\t\t\t\t|\n";
+							cout << " |  Change: $" << change << "0.\t\t\t\t\t|\n" <<
+								" |\t\t\t\t\t\t\t|\n";
+							cout << " |  ---\t\t\t\t\t\t\t|\n" <<
+								" |\t\t\t\t\t\t\t|\n";
+							cout << " |  Questions, comments, or concerns? \t\t\t|\n";
+							cout << " |  Contact Us: 1-(800)-1-ZANACH\t\t\t|\n";
+							cout << "  ______________________________________________________\n";
 						}
 						cout << "Thank you, and have a great day!";
 						incorrectPayment = false;
@@ -693,9 +724,9 @@ int main(int argc, char * argv[]) {
 						string money;
 						(carsList[floorTemp - 1][spaceTemp - 1].get_timePeriod() == 1 ? money = ".00." : money = "0.");
 
-						cout << "Your change is $" << change << money << ". ";
+						cout << "\nYour change is $" << change << money;
 					ReceiptCashQuestion2:
-						cout << "Would you like a receipt?\n1.Yes\n2.No\n";
+						cout << "Would you like a receipt?\n\t1.Yes\n\t2.No\n";
 						cin >> receiptChoice;
 						while (cin.fail()) {
 							cin.clear(); //Resets the flags so you can input again
@@ -821,7 +852,7 @@ int main(int argc, char * argv[]) {
 
 		FoundCar:
 			cout << "Your " << carsList[floorNum - 1][spaceNum - 1].get_color() << " " << carsList[floorNum - 1][spaceNum - 1].get_make() << " "
-				<< carsList[floorNum - 1][spaceNum - 1].get_model() << " is located on floor " << floorNum << " in space " << spaceNum << "." << endl;
+				<< carsList[floorNum - 1][spaceNum - 1].get_model() << " is located at: \nFloor " << floorNum << "\nSpace " << spaceNum << "." << endl;
 
 			break;
 		}
@@ -1201,7 +1232,7 @@ int main(int argc, char * argv[]) {
 		}//end of big switch statement
 
 		RepeatProgram:
-		cout << "Enter 1 to Continue to Main Menu, 0 to Exit: \n";
+		cout << "\nEnter 1 to Continue to Main Menu, 0 to Exit: \n";
 		cin >> quit;
 	} while (quit == 1);
 
