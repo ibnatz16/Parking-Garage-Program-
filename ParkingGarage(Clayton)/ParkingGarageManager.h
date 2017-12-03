@@ -12,18 +12,24 @@ class Manager{
         //manager constructor
         Manager(string user);
 
-        //Setters
+
+        // Manager Setters
         void set_username (string user);
+
         void set_password (string pass);
 
-        //Getters
+
+        //Manager Getters
         string get_password ();
+
         string get_username ();
 
 
     private:
-        //manager variables
+
+        //Manager variables
         string username;
+
         string password;
 
 };
