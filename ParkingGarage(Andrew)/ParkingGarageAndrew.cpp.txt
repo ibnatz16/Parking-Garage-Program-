@@ -25,6 +25,7 @@ Car::Car() {
 	moneyOwed = 0;
 	isOccupied = false;
 	isVIP = false;
+	isTowed = false;
 }
 
 Manager::Manager(string user) {
@@ -105,6 +106,11 @@ void Car::set_isVIP(bool v)
 	isVIP = v;
 }
 
+void Car::set_isTowed(bool t)
+{
+	isTowed = t;
+}
+
 //Getters
 string Car::get_color()
 {
@@ -154,6 +160,11 @@ bool Car::get_isOccupied()
 bool Car::get_isVIP()
 {
 	return isVIP;
+}
+
+bool Car::get_isTowed()
+{
+	return isTowed;
 }
 
 int main(int argc, char * argv[]) {
@@ -547,6 +558,7 @@ int main(int argc, char * argv[]) {
 
 			//checks if a car is parked in the given space
 			if (carsList[floorTemp - 1][spaceTemp - 1].get_isOccupied() == true) {
+
 				cout << "Please re-enter your license plate number to ensure you receive the correct bill:" << endl;
 				cin >> temp;
 				string s = carsList[floorTemp - 1][spaceTemp - 1].get_lpNum();
@@ -570,10 +582,17 @@ int main(int argc, char * argv[]) {
 						timePeriod = "12 - 24 hours.    ";
 					}
 
-					cout << "You have parked your " << carsList[floorTemp - 1][spaceTemp - 1].get_color() << " "
-						<< carsList[floorTemp - 1][spaceTemp - 1].get_make()
-						<< " " << carsList[floorTemp - 1][spaceTemp - 1].get_model() << " for "
-						<< timePeriod << endl;
+					if (carsList[floorTemp - 1][spaceTemp - 1].get_isTowed() == true) {
+						cout << "We are very sorry, your " << carsList[floorTemp - 1][spaceTemp - 1].get_color() << " "
+							<< carsList[floorTemp - 1][spaceTemp - 1].get_make() << " " << carsList[floorTemp - 1][spaceTemp - 1].get_model()
+							<< " has been towed. A $200 charge has been added to your bill. You can contact us at the number on the receipt for steps on retrieving your car." << endl;
+					}
+					else {
+						cout << "You have parked your " << carsList[floorTemp - 1][spaceTemp - 1].get_color() << " "
+							<< carsList[floorTemp - 1][spaceTemp - 1].get_make()
+							<< " " << carsList[floorTemp - 1][spaceTemp - 1].get_model() << " for "
+							<< timePeriod << endl;
+					}
 
 					string money;
 					//gets moneyOwed from car if it is parked there and asks the user for payment
@@ -810,10 +829,20 @@ int main(int argc, char * argv[]) {
 				}
 			}
 
-			FoundCar:
-			cout << "Your " << carsList[floorNum - 1][spaceNum - 1].get_color() << " " << carsList[floorNum - 1][spaceNum - 1].get_make() << " "
+		FoundCar:
+			if (carsList[floorTemp - 1][spaceTemp - 1].get_isTowed() == true) {
+				cout << "We are very sorry, your " << carsList[floorTemp - 1][spaceTemp - 1].get_color() << " "
+					<< carsList[floorTemp - 1][spaceTemp - 1].get_make() << " " << carsList[floorTemp - 1][spaceTemp - 1].get_model()
+					<< ", that was parked on floor " << floorNum << " in space " << spaceNum << ", has been towed. "
+					<< "A $200 charge has been added to your bill. You can contact us at the number on the receipt for steps on retrieving your car."
+					<< "Please hold while you are sent to the checkout process." << endl;
+				Sleep(1000);
+				goto checkoutProcess;
+			}
+			else {
+				cout << "Your " << carsList[floorNum - 1][spaceNum - 1].get_color() << " " << carsList[floorNum - 1][spaceNum - 1].get_make() << " "
 				<< carsList[floorNum - 1][spaceNum - 1].get_model() << " is located on floor " << floorNum << " in space " << spaceNum << "." << endl;
-
+			}
 			break;
 		}
 
@@ -1119,8 +1148,13 @@ int main(int argc, char * argv[]) {
 							{
 								case 1:
 								{
-									cout << "The " << carsList[temp1 - 1][temp2 - 1].get_color() << " " << carsList[temp1 - 1][temp2 - 1].get_make()
-										<< " " << carsList[temp1 - 1][temp2 - 1].get_model() << " will be towed. Owner will be notified and a fee will be added to their bill. " << endl;
+									cout << "The " << carsList[temp1 - 1][temp2 - 1].get_color() << " "
+										<< carsList[temp1 - 1][temp2 - 1].get_make() << " " << carsList[temp1 - 1][temp2 - 1].get_model()
+										<< " will be towed. Owner will be notified and a fee will be added to their bill. " << endl;
+									carsList[temp1 - 1][temp2 - 1].set_isTowed(true);
+									carsList[temp1 - 1][temp2 - 1].set_isOccupied(false);
+									carsList[temp1 - 1][temp2 - 1].set_moneyOwed(carsList[temp1 - 1][temp2 - 1].get_moneyOwed() + 200.0);
+
 								}
 								case 2:
 								{

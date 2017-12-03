@@ -22,6 +22,7 @@ public:
 	void set_moneyOwed(double m);
 	void set_isOccupied(bool o);
 	void set_isVIP(bool v);
+	void set_isTowed(bool t);
 
 	//declarations of getter methods for car variables
 	string get_color();
@@ -34,6 +35,7 @@ public:
 	double get_moneyOwed();
 	bool get_isOccupied();
 	bool get_isVIP();
+	bool get_isTowed();
 
 	//int findCar(int floorNum, int spaceNum, string lpNum);
 private:
@@ -48,6 +50,7 @@ private:
 	double moneyOwed;
 	bool isOccupied;
 	bool isVIP;
+	bool isTowed;
 
 };
 
